@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any, Dict
 
-from ..types import WebhookInfo
 from .base import Request, TelegramMethod
+from ..types import WebhookInfo
 
 if TYPE_CHECKING:  # pragma: no cover
     from ..client.bot import Bot

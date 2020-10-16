@@ -30,10 +30,10 @@ class ShippingQuery(TelegramObject):
     """User specified shipping address"""
 
     def answer(
-        self,
-        ok: bool,
-        shipping_options: Optional[List[ShippingOption]] = None,
-        error_message: Optional[str] = None,
+            self,
+            ok: bool,
+            shipping_options: Optional[List[ShippingOption]] = None,
+            error_message: Optional[str] = None,
     ) -> AnswerShippingQuery:
         """
         :param ok:

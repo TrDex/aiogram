@@ -3,8 +3,8 @@ from __future__ import annotations
 import datetime
 from typing import TYPE_CHECKING, Optional, Union
 
-from ...utils import helper
 from .base import TelegramObject
+from ...utils import helper
 
 if TYPE_CHECKING:  # pragma: no cover
     from .user import User

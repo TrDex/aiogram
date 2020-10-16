@@ -44,10 +44,10 @@ class BufferedInputFile(InputFile):
 
     @classmethod
     def from_file(
-        cls,
-        path: Union[str, Path],
-        filename: Optional[str] = None,
-        chunk_size: int = DEFAULT_CHUNK_SIZE,
+            cls,
+            path: Union[str, Path],
+            filename: Optional[str] = None,
+            chunk_size: int = DEFAULT_CHUNK_SIZE,
     ) -> BufferedInputFile:
         if filename is None:
             filename = os.path.basename(path)
@@ -65,10 +65,10 @@ class BufferedInputFile(InputFile):
 
 class FSInputFile(InputFile):
     def __init__(
-        self,
-        path: Union[str, Path],
-        filename: Optional[str] = None,
-        chunk_size: int = DEFAULT_CHUNK_SIZE,
+            self,
+            path: Union[str, Path],
+            filename: Optional[str] = None,
+            chunk_size: int = DEFAULT_CHUNK_SIZE,
     ):
         if filename is None:
             filename = os.path.basename(path)
@@ -86,11 +86,11 @@ class FSInputFile(InputFile):
 
 class URLInputFile(InputFile):
     def __init__(
-        self,
-        url: str,
-        filename: Optional[str] = None,
-        chunk_size: int = DEFAULT_CHUNK_SIZE,
-        timeout: int = 30,
+            self,
+            url: str,
+            filename: Optional[str] = None,
+            chunk_size: int = DEFAULT_CHUNK_SIZE,
+            timeout: int = 30,
     ):
         super().__init__(filename=filename, chunk_size=chunk_size)
 

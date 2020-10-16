@@ -63,11 +63,11 @@ class TextDecoration(ABC):
         return result
 
     def _unparse_entities(
-        self,
-        text: str,
-        entities: List[MessageEntity],
-        offset: Optional[int] = None,
-        length: Optional[int] = None,
+            self,
+            text: str,
+            entities: List[MessageEntity],
+            offset: Optional[int] = None,
+            length: Optional[int] = None,
     ) -> Generator[str, None, None]:
         if offset is None:
             offset = 0
@@ -77,11 +77,11 @@ class TextDecoration(ABC):
             if entity.offset < offset:
                 continue
             if entity.offset > offset:
-                yield self.quote(text[offset : entity.offset])
+                yield self.quote(text[offset: entity.offset])
             start = entity.offset
             offset = entity.offset + entity.length
 
-            sub_entities = list(filter(lambda e: e.offset < (offset or 0), entities[index + 1 :]))
+            sub_entities = list(filter(lambda e: e.offset < (offset or 0), entities[index + 1:]))
             yield self.apply_entity(
                 entity,
                 "".join(self._unparse_entities(text, sub_entities, offset=start, length=offset)),

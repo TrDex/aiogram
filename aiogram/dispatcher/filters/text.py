@@ -41,7 +41,7 @@ class Text(BaseFilter):
         return values
 
     async def __call__(
-        self, obj: Union[Message, CallbackQuery, InlineQuery, Poll]
+            self, obj: Union[Message, CallbackQuery, InlineQuery, Poll]
     ) -> Union[bool, Dict[str, Any]]:
         if isinstance(obj, Message):
             text = obj.text or obj.caption or ""

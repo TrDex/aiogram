@@ -87,7 +87,6 @@
 class TelegramAPIError(Exception):
     pass
 
-
 # _PREFIXES = ["error: ", "[error]: ", "bad request: ", "conflict: ", "not found: "]
 #
 

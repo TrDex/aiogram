@@ -106,9 +106,9 @@ def prepare_file(name: str, value: Any, data: Dict[str, Any], files: Dict[str, A
 def prepare_input_media(data: Dict[str, Any], files: Dict[str, InputFile]) -> None:
     for input_media in data.get("media", []):  # type: Dict[str, Union[str, InputFile]]
         if (
-            "media" in input_media
-            and input_media["media"]
-            and isinstance(input_media["media"], InputFile)
+                "media" in input_media
+                and input_media["media"]
+                and isinstance(input_media["media"], InputFile)
         ):
             tag = secrets.token_urlsafe(10)
             files[tag] = input_media.pop("media")  # type: ignore
@@ -117,9 +117,9 @@ def prepare_input_media(data: Dict[str, Any], files: Dict[str, InputFile]) -> No
 
 def prepare_media_file(data: Dict[str, Any], files: Dict[str, InputFile]) -> None:
     if (
-        data["media"]
-        and "media" in data["media"]
-        and isinstance(data["media"]["media"], InputFile)
+            data["media"]
+            and "media" in data["media"]
+            and isinstance(data["media"]["media"], InputFile)
     ):
         tag = secrets.token_urlsafe(10)
         files[tag] = data["media"].pop("media")

@@ -13,7 +13,6 @@ try:
 except ImportError:  # pragma: no cover
     _uvloop = None
 
-
 __all__ = (
     "__api_version__",
     "__version__",

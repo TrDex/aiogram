@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any, Dict, List, Optional
 
-from ..types import InlineQueryResult
 from .base import Request, TelegramMethod, prepare_parse_mode
+from ..types import InlineQueryResult
 
 if TYPE_CHECKING:  # pragma: no cover
     from ..client.bot import Bot

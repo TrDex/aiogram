@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any, Dict, Optional, Union
 
+from .base import Request, TelegramMethod, prepare_file
 from ..types import (
     ForceReply,
     InlineKeyboardMarkup,
@@ -10,7 +11,6 @@ from ..types import (
     ReplyKeyboardMarkup,
     ReplyKeyboardRemove,
 )
-from .base import Request, TelegramMethod, prepare_file
 
 if TYPE_CHECKING:  # pragma: no cover
     from ..client.bot import Bot

@@ -18,7 +18,6 @@ from typing import (
 from aiohttp import BasicAuth, ClientSession, FormData, TCPConnector
 
 from aiogram.api.methods import Request, TelegramMethod
-
 from .base import BaseSession
 
 if TYPE_CHECKING:  # pragma: no cover
@@ -61,7 +60,7 @@ def _prepare_connector(chain_or_plain: _ProxyType) -> Tuple[Type["TCPConnector"]
     # since tuple is Iterable(compatible with _ProxyChain) object, we assume that
     # user wants chained proxies if tuple is a pair of string(url) and BasicAuth
     if isinstance(chain_or_plain, str) or (
-        isinstance(chain_or_plain, tuple) and len(chain_or_plain) == 2
+            isinstance(chain_or_plain, tuple) and len(chain_or_plain) == 2
     ):
         chain_or_plain = cast(_ProxyBasic, chain_or_plain)
         return ProxyConnector, _retrieve_basic(chain_or_plain)
@@ -130,7 +129,7 @@ class AiohttpSession(BaseSession):
         return form
 
     async def make_request(
-        self, bot: Bot, call: TelegramMethod[T], timeout: Optional[int] = None
+            self, bot: Bot, call: TelegramMethod[T], timeout: Optional[int] = None
     ) -> T:
         session = await self.create_session()
 
@@ -139,7 +138,7 @@ class AiohttpSession(BaseSession):
         form = self.build_form_data(request)
 
         async with session.post(
-            url, data=form, timeout=self.timeout if timeout is None else timeout
+                url, data=form, timeout=self.timeout if timeout is None else timeout
         ) as resp:
             raw_result = await resp.json(loads=self.json_loads)
 
@@ -148,7 +147,7 @@ class AiohttpSession(BaseSession):
         return cast(T, response.result)
 
     async def stream_content(
-        self, url: str, timeout: int, chunk_size: int
+            self, url: str, timeout: int, chunk_size: int
     ) -> AsyncGenerator[bytes, None]:
         session = await self.create_session()
 

@@ -3,8 +3,8 @@ from __future__ import annotations
 import datetime
 from typing import TYPE_CHECKING, Any, Dict, Optional, Union
 
-from ..types import ChatPermissions
 from .base import Request, TelegramMethod
+from ..types import ChatPermissions
 
 if TYPE_CHECKING:  # pragma: no cover
     from ..client.bot import Bot

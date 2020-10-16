@@ -7,10 +7,10 @@ from aiogram.dispatcher.middlewares.base import BaseMiddleware
 
 class UserContextMiddleware(BaseMiddleware[Update]):
     async def __call__(
-        self,
-        handler: Callable[[Update, Dict[str, Any]], Awaitable[Any]],
-        event: Update,
-        data: Dict[str, Any],
+            self,
+            handler: Callable[[Update, Dict[str, Any]], Awaitable[Any]],
+            event: Update,
+            data: Dict[str, Any],
     ) -> Any:
         chat, user = self.resolve_event_context(event=event)
         with self.context(chat=chat, user=user):

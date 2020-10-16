@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any, Dict
 
-from ..types import File, InputFile
 from .base import Request, TelegramMethod, prepare_file
+from ..types import File, InputFile
 
 if TYPE_CHECKING:  # pragma: no cover
     from ..client.bot import Bot

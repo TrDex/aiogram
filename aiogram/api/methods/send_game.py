@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any, Dict, Optional
 
-from ..types import InlineKeyboardMarkup, Message
 from .base import Request, TelegramMethod
+from ..types import InlineKeyboardMarkup, Message
 
 if TYPE_CHECKING:  # pragma: no cover
     from ..client.bot import Bot

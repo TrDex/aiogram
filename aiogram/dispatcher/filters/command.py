@@ -21,7 +21,7 @@ class Command(BaseFilter):
 
     @validator("commands", always=True)
     def _validate_commands(
-        cls, value: Union[Sequence[CommandPatterType], CommandPatterType]
+            cls, value: Union[Sequence[CommandPatterType], CommandPatterType]
     ) -> Sequence[CommandPatterType]:
         if isinstance(value, (str, re.Pattern)):
             value = [value]

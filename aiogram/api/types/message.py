@@ -5,8 +5,8 @@ from typing import TYPE_CHECKING, List, Optional, Union
 
 from pydantic import Field
 
-from ...utils import helper
 from .base import UNSET, TelegramObject
+from ...utils import helper
 
 if TYPE_CHECKING:  # pragma: no cover
     from .animation import Animation
@@ -249,18 +249,18 @@ class Message(TelegramObject):
         return ContentType.UNKNOWN
 
     def reply_animation(
-        self,
-        animation: Union[InputFile, str],
-        duration: Optional[int] = None,
-        width: Optional[int] = None,
-        height: Optional[int] = None,
-        thumb: Optional[Union[InputFile, str]] = None,
-        caption: Optional[str] = None,
-        parse_mode: Optional[str] = UNSET,
-        disable_notification: Optional[bool] = None,
-        reply_markup: Optional[
-            Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
-        ] = None,
+            self,
+            animation: Union[InputFile, str],
+            duration: Optional[int] = None,
+            width: Optional[int] = None,
+            height: Optional[int] = None,
+            thumb: Optional[Union[InputFile, str]] = None,
+            caption: Optional[str] = None,
+            parse_mode: Optional[str] = UNSET,
+            disable_notification: Optional[bool] = None,
+            reply_markup: Optional[
+                Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
+            ] = None,
     ) -> SendAnimation:
         """
         Reply with animation
@@ -293,18 +293,18 @@ class Message(TelegramObject):
         )
 
     def answer_animation(
-        self,
-        animation: Union[InputFile, str],
-        duration: Optional[int] = None,
-        width: Optional[int] = None,
-        height: Optional[int] = None,
-        thumb: Optional[Union[InputFile, str]] = None,
-        caption: Optional[str] = None,
-        parse_mode: Optional[str] = UNSET,
-        disable_notification: Optional[bool] = None,
-        reply_markup: Optional[
-            Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
-        ] = None,
+            self,
+            animation: Union[InputFile, str],
+            duration: Optional[int] = None,
+            width: Optional[int] = None,
+            height: Optional[int] = None,
+            thumb: Optional[Union[InputFile, str]] = None,
+            caption: Optional[str] = None,
+            parse_mode: Optional[str] = UNSET,
+            disable_notification: Optional[bool] = None,
+            reply_markup: Optional[
+                Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
+            ] = None,
     ) -> SendAnimation:
         """
         Answer with animation
@@ -337,18 +337,18 @@ class Message(TelegramObject):
         )
 
     def reply_audio(
-        self,
-        audio: Union[InputFile, str],
-        caption: Optional[str] = None,
-        parse_mode: Optional[str] = UNSET,
-        duration: Optional[int] = None,
-        performer: Optional[str] = None,
-        title: Optional[str] = None,
-        thumb: Optional[Union[InputFile, str]] = None,
-        disable_notification: Optional[bool] = None,
-        reply_markup: Optional[
-            Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
-        ] = None,
+            self,
+            audio: Union[InputFile, str],
+            caption: Optional[str] = None,
+            parse_mode: Optional[str] = UNSET,
+            duration: Optional[int] = None,
+            performer: Optional[str] = None,
+            title: Optional[str] = None,
+            thumb: Optional[Union[InputFile, str]] = None,
+            disable_notification: Optional[bool] = None,
+            reply_markup: Optional[
+                Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
+            ] = None,
     ) -> SendAudio:
         """
         Reply with audio
@@ -381,18 +381,18 @@ class Message(TelegramObject):
         )
 
     def answer_audio(
-        self,
-        audio: Union[InputFile, str],
-        caption: Optional[str] = None,
-        parse_mode: Optional[str] = UNSET,
-        duration: Optional[int] = None,
-        performer: Optional[str] = None,
-        title: Optional[str] = None,
-        thumb: Optional[Union[InputFile, str]] = None,
-        disable_notification: Optional[bool] = None,
-        reply_markup: Optional[
-            Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
-        ] = None,
+            self,
+            audio: Union[InputFile, str],
+            caption: Optional[str] = None,
+            parse_mode: Optional[str] = UNSET,
+            duration: Optional[int] = None,
+            performer: Optional[str] = None,
+            title: Optional[str] = None,
+            thumb: Optional[Union[InputFile, str]] = None,
+            disable_notification: Optional[bool] = None,
+            reply_markup: Optional[
+                Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
+            ] = None,
     ) -> SendAudio:
         """
         Answer with audio
@@ -425,15 +425,15 @@ class Message(TelegramObject):
         )
 
     def reply_contact(
-        self,
-        phone_number: str,
-        first_name: str,
-        last_name: Optional[str] = None,
-        vcard: Optional[str] = None,
-        disable_notification: Optional[bool] = None,
-        reply_markup: Optional[
-            Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
-        ] = None,
+            self,
+            phone_number: str,
+            first_name: str,
+            last_name: Optional[str] = None,
+            vcard: Optional[str] = None,
+            disable_notification: Optional[bool] = None,
+            reply_markup: Optional[
+                Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
+            ] = None,
     ) -> SendContact:
         """
         Reply with contact
@@ -460,15 +460,15 @@ class Message(TelegramObject):
         )
 
     def answer_contact(
-        self,
-        phone_number: str,
-        first_name: str,
-        last_name: Optional[str] = None,
-        vcard: Optional[str] = None,
-        disable_notification: Optional[bool] = None,
-        reply_markup: Optional[
-            Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
-        ] = None,
+            self,
+            phone_number: str,
+            first_name: str,
+            last_name: Optional[str] = None,
+            vcard: Optional[str] = None,
+            disable_notification: Optional[bool] = None,
+            reply_markup: Optional[
+                Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
+            ] = None,
     ) -> SendContact:
         """
         Answer with contact
@@ -495,15 +495,15 @@ class Message(TelegramObject):
         )
 
     def reply_document(
-        self,
-        document: Union[InputFile, str],
-        thumb: Optional[Union[InputFile, str]] = None,
-        caption: Optional[str] = None,
-        parse_mode: Optional[str] = UNSET,
-        disable_notification: Optional[bool] = None,
-        reply_markup: Optional[
-            Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
-        ] = None,
+            self,
+            document: Union[InputFile, str],
+            thumb: Optional[Union[InputFile, str]] = None,
+            caption: Optional[str] = None,
+            parse_mode: Optional[str] = UNSET,
+            disable_notification: Optional[bool] = None,
+            reply_markup: Optional[
+                Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
+            ] = None,
     ) -> SendDocument:
         """
         Reply with document
@@ -530,15 +530,15 @@ class Message(TelegramObject):
         )
 
     def answer_document(
-        self,
-        document: Union[InputFile, str],
-        thumb: Optional[Union[InputFile, str]] = None,
-        caption: Optional[str] = None,
-        parse_mode: Optional[str] = UNSET,
-        disable_notification: Optional[bool] = None,
-        reply_markup: Optional[
-            Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
-        ] = None,
+            self,
+            document: Union[InputFile, str],
+            thumb: Optional[Union[InputFile, str]] = None,
+            caption: Optional[str] = None,
+            parse_mode: Optional[str] = UNSET,
+            disable_notification: Optional[bool] = None,
+            reply_markup: Optional[
+                Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
+            ] = None,
     ) -> SendDocument:
         """
         Answer with document
@@ -565,10 +565,10 @@ class Message(TelegramObject):
         )
 
     def reply_game(
-        self,
-        game_short_name: str,
-        disable_notification: Optional[bool] = None,
-        reply_markup: Optional[InlineKeyboardMarkup] = None,
+            self,
+            game_short_name: str,
+            disable_notification: Optional[bool] = None,
+            reply_markup: Optional[InlineKeyboardMarkup] = None,
     ) -> SendGame:
         """
         Reply with game
@@ -589,10 +589,10 @@ class Message(TelegramObject):
         )
 
     def answer_game(
-        self,
-        game_short_name: str,
-        disable_notification: Optional[bool] = None,
-        reply_markup: Optional[InlineKeyboardMarkup] = None,
+            self,
+            game_short_name: str,
+            disable_notification: Optional[bool] = None,
+            reply_markup: Optional[InlineKeyboardMarkup] = None,
     ) -> SendGame:
         """
         Answer with game
@@ -613,28 +613,28 @@ class Message(TelegramObject):
         )
 
     def reply_invoice(
-        self,
-        title: str,
-        description: str,
-        payload: str,
-        provider_token: str,
-        start_parameter: str,
-        currency: str,
-        prices: List[LabeledPrice],
-        provider_data: Optional[str] = None,
-        photo_url: Optional[str] = None,
-        photo_size: Optional[int] = None,
-        photo_width: Optional[int] = None,
-        photo_height: Optional[int] = None,
-        need_name: Optional[bool] = None,
-        need_phone_number: Optional[bool] = None,
-        need_email: Optional[bool] = None,
-        need_shipping_address: Optional[bool] = None,
-        send_phone_number_to_provider: Optional[bool] = None,
-        send_email_to_provider: Optional[bool] = None,
-        is_flexible: Optional[bool] = None,
-        disable_notification: Optional[bool] = None,
-        reply_markup: Optional[InlineKeyboardMarkup] = None,
+            self,
+            title: str,
+            description: str,
+            payload: str,
+            provider_token: str,
+            start_parameter: str,
+            currency: str,
+            prices: List[LabeledPrice],
+            provider_data: Optional[str] = None,
+            photo_url: Optional[str] = None,
+            photo_size: Optional[int] = None,
+            photo_width: Optional[int] = None,
+            photo_height: Optional[int] = None,
+            need_name: Optional[bool] = None,
+            need_phone_number: Optional[bool] = None,
+            need_email: Optional[bool] = None,
+            need_shipping_address: Optional[bool] = None,
+            send_phone_number_to_provider: Optional[bool] = None,
+            send_email_to_provider: Optional[bool] = None,
+            is_flexible: Optional[bool] = None,
+            disable_notification: Optional[bool] = None,
+            reply_markup: Optional[InlineKeyboardMarkup] = None,
     ) -> SendInvoice:
         """
         Reply with invoice
@@ -691,28 +691,28 @@ class Message(TelegramObject):
         )
 
     def answer_invoice(
-        self,
-        title: str,
-        description: str,
-        payload: str,
-        provider_token: str,
-        start_parameter: str,
-        currency: str,
-        prices: List[LabeledPrice],
-        provider_data: Optional[str] = None,
-        photo_url: Optional[str] = None,
-        photo_size: Optional[int] = None,
-        photo_width: Optional[int] = None,
-        photo_height: Optional[int] = None,
-        need_name: Optional[bool] = None,
-        need_phone_number: Optional[bool] = None,
-        need_email: Optional[bool] = None,
-        need_shipping_address: Optional[bool] = None,
-        send_phone_number_to_provider: Optional[bool] = None,
-        send_email_to_provider: Optional[bool] = None,
-        is_flexible: Optional[bool] = None,
-        disable_notification: Optional[bool] = None,
-        reply_markup: Optional[InlineKeyboardMarkup] = None,
+            self,
+            title: str,
+            description: str,
+            payload: str,
+            provider_token: str,
+            start_parameter: str,
+            currency: str,
+            prices: List[LabeledPrice],
+            provider_data: Optional[str] = None,
+            photo_url: Optional[str] = None,
+            photo_size: Optional[int] = None,
+            photo_width: Optional[int] = None,
+            photo_height: Optional[int] = None,
+            need_name: Optional[bool] = None,
+            need_phone_number: Optional[bool] = None,
+            need_email: Optional[bool] = None,
+            need_shipping_address: Optional[bool] = None,
+            send_phone_number_to_provider: Optional[bool] = None,
+            send_email_to_provider: Optional[bool] = None,
+            is_flexible: Optional[bool] = None,
+            disable_notification: Optional[bool] = None,
+            reply_markup: Optional[InlineKeyboardMarkup] = None,
     ) -> SendInvoice:
         """
         Answer with invoice
@@ -769,14 +769,14 @@ class Message(TelegramObject):
         )
 
     def reply_location(
-        self,
-        latitude: float,
-        longitude: float,
-        live_period: Optional[int] = None,
-        disable_notification: Optional[bool] = None,
-        reply_markup: Optional[
-            Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
-        ] = None,
+            self,
+            latitude: float,
+            longitude: float,
+            live_period: Optional[int] = None,
+            disable_notification: Optional[bool] = None,
+            reply_markup: Optional[
+                Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
+            ] = None,
     ) -> SendLocation:
         """
         Reply with location
@@ -801,14 +801,14 @@ class Message(TelegramObject):
         )
 
     def answer_location(
-        self,
-        latitude: float,
-        longitude: float,
-        live_period: Optional[int] = None,
-        disable_notification: Optional[bool] = None,
-        reply_markup: Optional[
-            Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
-        ] = None,
+            self,
+            latitude: float,
+            longitude: float,
+            live_period: Optional[int] = None,
+            disable_notification: Optional[bool] = None,
+            reply_markup: Optional[
+                Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
+            ] = None,
     ) -> SendLocation:
         """
         Answer with location
@@ -833,9 +833,9 @@ class Message(TelegramObject):
         )
 
     def reply_media_group(
-        self,
-        media: List[Union[InputMediaPhoto, InputMediaVideo]],
-        disable_notification: Optional[bool] = None,
+            self,
+            media: List[Union[InputMediaPhoto, InputMediaVideo]],
+            disable_notification: Optional[bool] = None,
     ) -> SendMediaGroup:
         """
         Reply with media group
@@ -854,9 +854,9 @@ class Message(TelegramObject):
         )
 
     def answer_media_group(
-        self,
-        media: List[Union[InputMediaPhoto, InputMediaVideo]],
-        disable_notification: Optional[bool] = None,
+            self,
+            media: List[Union[InputMediaPhoto, InputMediaVideo]],
+            disable_notification: Optional[bool] = None,
     ) -> SendMediaGroup:
         """
         Answer with media group
@@ -875,14 +875,14 @@ class Message(TelegramObject):
         )
 
     def reply(
-        self,
-        text: str,
-        parse_mode: Optional[str] = UNSET,
-        disable_web_page_preview: Optional[bool] = None,
-        disable_notification: Optional[bool] = None,
-        reply_markup: Optional[
-            Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
-        ] = None,
+            self,
+            text: str,
+            parse_mode: Optional[str] = UNSET,
+            disable_web_page_preview: Optional[bool] = None,
+            disable_notification: Optional[bool] = None,
+            reply_markup: Optional[
+                Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
+            ] = None,
     ) -> SendMessage:
         """
         Reply with text message
@@ -907,14 +907,14 @@ class Message(TelegramObject):
         )
 
     def answer(
-        self,
-        text: str,
-        parse_mode: Optional[str] = UNSET,
-        disable_web_page_preview: Optional[bool] = None,
-        disable_notification: Optional[bool] = None,
-        reply_markup: Optional[
-            Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
-        ] = None,
+            self,
+            text: str,
+            parse_mode: Optional[str] = UNSET,
+            disable_web_page_preview: Optional[bool] = None,
+            disable_notification: Optional[bool] = None,
+            reply_markup: Optional[
+                Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
+            ] = None,
     ) -> SendMessage:
         """
         Answer with text message
@@ -939,14 +939,14 @@ class Message(TelegramObject):
         )
 
     def reply_photo(
-        self,
-        photo: Union[InputFile, str],
-        caption: Optional[str] = None,
-        parse_mode: Optional[str] = UNSET,
-        disable_notification: Optional[bool] = None,
-        reply_markup: Optional[
-            Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
-        ] = None,
+            self,
+            photo: Union[InputFile, str],
+            caption: Optional[str] = None,
+            parse_mode: Optional[str] = UNSET,
+            disable_notification: Optional[bool] = None,
+            reply_markup: Optional[
+                Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
+            ] = None,
     ) -> SendPhoto:
         """
         Reply with photo
@@ -971,14 +971,14 @@ class Message(TelegramObject):
         )
 
     def answer_photo(
-        self,
-        photo: Union[InputFile, str],
-        caption: Optional[str] = None,
-        parse_mode: Optional[str] = UNSET,
-        disable_notification: Optional[bool] = None,
-        reply_markup: Optional[
-            Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
-        ] = None,
+            self,
+            photo: Union[InputFile, str],
+            caption: Optional[str] = None,
+            parse_mode: Optional[str] = UNSET,
+            disable_notification: Optional[bool] = None,
+            reply_markup: Optional[
+                Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
+            ] = None,
     ) -> SendPhoto:
         """
         Answer with photo
@@ -1003,22 +1003,22 @@ class Message(TelegramObject):
         )
 
     def reply_poll(
-        self,
-        question: str,
-        options: List[str],
-        is_anonymous: Optional[bool] = None,
-        type: Optional[str] = None,
-        allows_multiple_answers: Optional[bool] = None,
-        correct_option_id: Optional[int] = None,
-        explanation: Optional[str] = None,
-        explanation_parse_mode: Optional[str] = UNSET,
-        open_period: Optional[int] = None,
-        close_date: Optional[Union[datetime.datetime, datetime.timedelta, int]] = None,
-        is_closed: Optional[bool] = None,
-        disable_notification: Optional[bool] = None,
-        reply_markup: Optional[
-            Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
-        ] = None,
+            self,
+            question: str,
+            options: List[str],
+            is_anonymous: Optional[bool] = None,
+            type: Optional[str] = None,
+            allows_multiple_answers: Optional[bool] = None,
+            correct_option_id: Optional[int] = None,
+            explanation: Optional[str] = None,
+            explanation_parse_mode: Optional[str] = UNSET,
+            open_period: Optional[int] = None,
+            close_date: Optional[Union[datetime.datetime, datetime.timedelta, int]] = None,
+            is_closed: Optional[bool] = None,
+            disable_notification: Optional[bool] = None,
+            reply_markup: Optional[
+                Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
+            ] = None,
     ) -> SendPoll:
         """
         Reply with poll
@@ -1059,22 +1059,22 @@ class Message(TelegramObject):
         )
 
     def answer_poll(
-        self,
-        question: str,
-        options: List[str],
-        is_anonymous: Optional[bool] = None,
-        type: Optional[str] = None,
-        allows_multiple_answers: Optional[bool] = None,
-        correct_option_id: Optional[int] = None,
-        explanation: Optional[str] = None,
-        explanation_parse_mode: Optional[str] = UNSET,
-        open_period: Optional[int] = None,
-        close_date: Optional[Union[datetime.datetime, datetime.timedelta, int]] = None,
-        is_closed: Optional[bool] = None,
-        disable_notification: Optional[bool] = None,
-        reply_markup: Optional[
-            Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
-        ] = None,
+            self,
+            question: str,
+            options: List[str],
+            is_anonymous: Optional[bool] = None,
+            type: Optional[str] = None,
+            allows_multiple_answers: Optional[bool] = None,
+            correct_option_id: Optional[int] = None,
+            explanation: Optional[str] = None,
+            explanation_parse_mode: Optional[str] = UNSET,
+            open_period: Optional[int] = None,
+            close_date: Optional[Union[datetime.datetime, datetime.timedelta, int]] = None,
+            is_closed: Optional[bool] = None,
+            disable_notification: Optional[bool] = None,
+            reply_markup: Optional[
+                Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
+            ] = None,
     ) -> SendPoll:
         """
         Answer with poll
@@ -1115,12 +1115,12 @@ class Message(TelegramObject):
         )
 
     def reply_dice(
-        self,
-        emoji: Optional[str] = None,
-        disable_notification: Optional[bool] = None,
-        reply_markup: Optional[
-            Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
-        ] = None,
+            self,
+            emoji: Optional[str] = None,
+            disable_notification: Optional[bool] = None,
+            reply_markup: Optional[
+                Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
+            ] = None,
     ) -> SendDice:
         """
         Reply with dice
@@ -1141,12 +1141,12 @@ class Message(TelegramObject):
         )
 
     def answer_dice(
-        self,
-        emoji: Optional[str] = None,
-        disable_notification: Optional[bool] = None,
-        reply_markup: Optional[
-            Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
-        ] = None,
+            self,
+            emoji: Optional[str] = None,
+            disable_notification: Optional[bool] = None,
+            reply_markup: Optional[
+                Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
+            ] = None,
     ) -> SendDice:
         """
         Answer with dice
@@ -1167,12 +1167,12 @@ class Message(TelegramObject):
         )
 
     def reply_sticker(
-        self,
-        sticker: Union[InputFile, str],
-        disable_notification: Optional[bool] = None,
-        reply_markup: Optional[
-            Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
-        ] = None,
+            self,
+            sticker: Union[InputFile, str],
+            disable_notification: Optional[bool] = None,
+            reply_markup: Optional[
+                Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
+            ] = None,
     ) -> SendSticker:
         """
         Reply with sticker
@@ -1193,12 +1193,12 @@ class Message(TelegramObject):
         )
 
     def answer_sticker(
-        self,
-        sticker: Union[InputFile, str],
-        disable_notification: Optional[bool] = None,
-        reply_markup: Optional[
-            Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
-        ] = None,
+            self,
+            sticker: Union[InputFile, str],
+            disable_notification: Optional[bool] = None,
+            reply_markup: Optional[
+                Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
+            ] = None,
     ) -> SendSticker:
         """
         Answer with sticker
@@ -1219,17 +1219,17 @@ class Message(TelegramObject):
         )
 
     def reply_venue(
-        self,
-        latitude: float,
-        longitude: float,
-        title: str,
-        address: str,
-        foursquare_id: Optional[str] = None,
-        foursquare_type: Optional[str] = None,
-        disable_notification: Optional[bool] = None,
-        reply_markup: Optional[
-            Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
-        ] = None,
+            self,
+            latitude: float,
+            longitude: float,
+            title: str,
+            address: str,
+            foursquare_id: Optional[str] = None,
+            foursquare_type: Optional[str] = None,
+            disable_notification: Optional[bool] = None,
+            reply_markup: Optional[
+                Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
+            ] = None,
     ) -> SendVenue:
         """
         Reply with venue
@@ -1260,17 +1260,17 @@ class Message(TelegramObject):
         )
 
     def answer_venue(
-        self,
-        latitude: float,
-        longitude: float,
-        title: str,
-        address: str,
-        foursquare_id: Optional[str] = None,
-        foursquare_type: Optional[str] = None,
-        disable_notification: Optional[bool] = None,
-        reply_markup: Optional[
-            Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
-        ] = None,
+            self,
+            latitude: float,
+            longitude: float,
+            title: str,
+            address: str,
+            foursquare_id: Optional[str] = None,
+            foursquare_type: Optional[str] = None,
+            disable_notification: Optional[bool] = None,
+            reply_markup: Optional[
+                Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
+            ] = None,
     ) -> SendVenue:
         """
         Answer with venue
@@ -1301,19 +1301,19 @@ class Message(TelegramObject):
         )
 
     def reply_video(
-        self,
-        video: Union[InputFile, str],
-        duration: Optional[int] = None,
-        width: Optional[int] = None,
-        height: Optional[int] = None,
-        thumb: Optional[Union[InputFile, str]] = None,
-        caption: Optional[str] = None,
-        parse_mode: Optional[str] = UNSET,
-        supports_streaming: Optional[bool] = None,
-        disable_notification: Optional[bool] = None,
-        reply_markup: Optional[
-            Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
-        ] = None,
+            self,
+            video: Union[InputFile, str],
+            duration: Optional[int] = None,
+            width: Optional[int] = None,
+            height: Optional[int] = None,
+            thumb: Optional[Union[InputFile, str]] = None,
+            caption: Optional[str] = None,
+            parse_mode: Optional[str] = UNSET,
+            supports_streaming: Optional[bool] = None,
+            disable_notification: Optional[bool] = None,
+            reply_markup: Optional[
+                Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
+            ] = None,
     ) -> SendVideo:
         """
         Reply with video
@@ -1348,19 +1348,19 @@ class Message(TelegramObject):
         )
 
     def answer_video(
-        self,
-        video: Union[InputFile, str],
-        duration: Optional[int] = None,
-        width: Optional[int] = None,
-        height: Optional[int] = None,
-        thumb: Optional[Union[InputFile, str]] = None,
-        caption: Optional[str] = None,
-        parse_mode: Optional[str] = UNSET,
-        supports_streaming: Optional[bool] = None,
-        disable_notification: Optional[bool] = None,
-        reply_markup: Optional[
-            Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
-        ] = None,
+            self,
+            video: Union[InputFile, str],
+            duration: Optional[int] = None,
+            width: Optional[int] = None,
+            height: Optional[int] = None,
+            thumb: Optional[Union[InputFile, str]] = None,
+            caption: Optional[str] = None,
+            parse_mode: Optional[str] = UNSET,
+            supports_streaming: Optional[bool] = None,
+            disable_notification: Optional[bool] = None,
+            reply_markup: Optional[
+                Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
+            ] = None,
     ) -> SendVideo:
         """
         Answer with video
@@ -1395,15 +1395,15 @@ class Message(TelegramObject):
         )
 
     def reply_video_note(
-        self,
-        video_note: Union[InputFile, str],
-        duration: Optional[int] = None,
-        length: Optional[int] = None,
-        thumb: Optional[Union[InputFile, str]] = None,
-        disable_notification: Optional[bool] = None,
-        reply_markup: Optional[
-            Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
-        ] = None,
+            self,
+            video_note: Union[InputFile, str],
+            duration: Optional[int] = None,
+            length: Optional[int] = None,
+            thumb: Optional[Union[InputFile, str]] = None,
+            disable_notification: Optional[bool] = None,
+            reply_markup: Optional[
+                Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
+            ] = None,
     ) -> SendVideoNote:
         """
         Reply wit video note
@@ -1430,15 +1430,15 @@ class Message(TelegramObject):
         )
 
     def answer_video_note(
-        self,
-        video_note: Union[InputFile, str],
-        duration: Optional[int] = None,
-        length: Optional[int] = None,
-        thumb: Optional[Union[InputFile, str]] = None,
-        disable_notification: Optional[bool] = None,
-        reply_markup: Optional[
-            Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
-        ] = None,
+            self,
+            video_note: Union[InputFile, str],
+            duration: Optional[int] = None,
+            length: Optional[int] = None,
+            thumb: Optional[Union[InputFile, str]] = None,
+            disable_notification: Optional[bool] = None,
+            reply_markup: Optional[
+                Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
+            ] = None,
     ) -> SendVideoNote:
         """
         Answer wit video note
@@ -1465,15 +1465,15 @@ class Message(TelegramObject):
         )
 
     def reply_voice(
-        self,
-        voice: Union[InputFile, str],
-        caption: Optional[str] = None,
-        parse_mode: Optional[str] = UNSET,
-        duration: Optional[int] = None,
-        disable_notification: Optional[bool] = None,
-        reply_markup: Optional[
-            Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
-        ] = None,
+            self,
+            voice: Union[InputFile, str],
+            caption: Optional[str] = None,
+            parse_mode: Optional[str] = UNSET,
+            duration: Optional[int] = None,
+            disable_notification: Optional[bool] = None,
+            reply_markup: Optional[
+                Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
+            ] = None,
     ) -> SendVoice:
         """
         Reply with voice
@@ -1500,15 +1500,15 @@ class Message(TelegramObject):
         )
 
     def answer_voice(
-        self,
-        voice: Union[InputFile, str],
-        caption: Optional[str] = None,
-        parse_mode: Optional[str] = UNSET,
-        duration: Optional[int] = None,
-        disable_notification: Optional[bool] = None,
-        reply_markup: Optional[
-            Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
-        ] = None,
+            self,
+            voice: Union[InputFile, str],
+            caption: Optional[str] = None,
+            parse_mode: Optional[str] = UNSET,
+            duration: Optional[int] = None,
+            disable_notification: Optional[bool] = None,
+            reply_markup: Optional[
+                Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
+            ] = None,
     ) -> SendVoice:
         """
         Answer with voice

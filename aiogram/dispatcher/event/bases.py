@@ -3,8 +3,8 @@ from __future__ import annotations
 from typing import Any, Awaitable, Callable, Dict, NoReturn, Optional, Union
 from unittest.mock import sentinel
 
-from ...api.types import TelegramObject
 from ..middlewares.base import BaseMiddleware
+from ...api.types import TelegramObject
 
 NextMiddlewareType = Callable[[TelegramObject, Dict[str, Any]], Awaitable[Any]]
 MiddlewareType = Union[

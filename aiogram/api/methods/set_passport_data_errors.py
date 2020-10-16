@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any, Dict, List
 
-from ..types import PassportElementError
 from .base import Request, TelegramMethod
+from ..types import PassportElementError
 
 if TYPE_CHECKING:  # pragma: no cover
     from ..client.bot import Bot

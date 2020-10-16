@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any, Dict, Union
 
-from ..types import ChatMember
 from .base import Request, TelegramMethod
+from ..types import ChatMember
 
 if TYPE_CHECKING:  # pragma: no cover
     from ..client.bot import Bot

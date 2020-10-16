@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any, Dict, List, Optional
 
-from ..types import ShippingOption
 from .base import Request, TelegramMethod
+from ..types import ShippingOption
 
 if TYPE_CHECKING:  # pragma: no cover
     from ..client.bot import Bot

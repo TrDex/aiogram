@@ -17,11 +17,10 @@ from typing import (
 )
 
 from aiogram.utils.exceptions import TelegramAPIError
-
-from ....utils.helper import Default
+from ..telegram import PRODUCTION, TelegramAPIServer
 from ...methods import Response, TelegramMethod
 from ...types import UNSET
-from ..telegram import PRODUCTION, TelegramAPIServer
+from ....utils.helper import Default
 
 if TYPE_CHECKING:  # pragma: no cover
     from ..bot import Bot
@@ -50,13 +49,13 @@ class BaseSession(abc.ABC):
 
     @abc.abstractmethod
     async def make_request(
-        self, bot: Bot, method: TelegramMethod[T], timeout: Optional[int] = UNSET
+            self, bot: Bot, method: TelegramMethod[T], timeout: Optional[int] = UNSET
     ) -> T:  # pragma: no cover
         pass
 
     @abc.abstractmethod
     async def stream_content(
-        self, url: str, timeout: int, chunk_size: int
+            self, url: str, timeout: int, chunk_size: int
     ) -> AsyncGenerator[bytes, None]:  # pragma: no cover
         yield b""
 
@@ -84,9 +83,9 @@ class BaseSession(abc.ABC):
         return self
 
     async def __aexit__(
-        self,
-        exc_type: Optional[Type[BaseException]],
-        exc_value: Optional[BaseException],
-        traceback: Optional[TracebackType],
+            self,
+            exc_type: Optional[Type[BaseException]],
+            exc_value: Optional[BaseException],
+            traceback: Optional[TracebackType],
     ) -> None:
         await self.close()

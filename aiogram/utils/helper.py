@@ -9,9 +9,9 @@ Example:
     ...     LOREM = Item()
     ...
     >>> print(MyHelper.FOO_ITEM & MyHelper.BAR_ITEM)
-    <<<  ['fooItem', 'barItem']
+    ['fooItem', 'barItem']
     >>> print(MyHelper.all())
-    <<<  ['barItem', 'bazItem', 'fooItem', 'lorem']
+    ['barItem', 'bazItem', 'fooItem', 'lorem']
 """
 import inspect
 from typing import Any, Callable, Generic, Iterable, List, Optional, TypeVar, Union, cast
@@ -210,7 +210,7 @@ class OrderedHelperMeta(type):
         props_keys = []
 
         for prop_name in (
-            name for name, prop in namespace.items() if isinstance(prop, (Item, ListItem))
+                name for name, prop in namespace.items() if isinstance(prop, (Item, ListItem))
         ):
             props_keys.append(prop_name)
 
@@ -263,7 +263,7 @@ class Default(Generic[T]):
     __slots__ = "fget", "_descriptor_instances"
 
     def __init__(
-        self, default: Optional[T] = None, *, fget: Optional[Callable[[Any], T]] = None,
+            self, default: Optional[T] = None, *, fget: Optional[Callable[[Any], T]] = None,
     ) -> None:
         self.fget = fget or (lambda _: cast(T, default))
         self._descriptor_instances = WeakKeyDictionary()  # type: ignore

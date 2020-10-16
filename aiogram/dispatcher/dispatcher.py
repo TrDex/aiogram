@@ -6,14 +6,14 @@ import warnings
 from asyncio import CancelledError, Future, Lock
 from typing import Any, AsyncGenerator, Dict, Optional, Union
 
+from .event.bases import NOT_HANDLED
+from .middlewares.user_context import UserContextMiddleware
+from .router import Router
 from .. import loggers
 from ..api.client.bot import Bot
 from ..api.methods import TelegramMethod
 from ..api.types import Update, User
 from ..utils.exceptions import TelegramAPIError
-from .event.bases import NOT_HANDLED
-from .middlewares.user_context import UserContextMiddleware
-from .router import Router
 
 
 class Dispatcher(Router):
@@ -115,7 +115,7 @@ class Dispatcher(Router):
             loggers.dispatcher.error("Failed to make answer: %s: %s", e.__class__.__name__, e)
 
     async def _process_update(
-        self, bot: Bot, update: Update, call_answer: bool = True, **kwargs: Any
+            self, bot: Bot, update: Update, call_answer: bool = True, **kwargs: Any
     ) -> bool:
         """
         Propagate update to event listeners
@@ -172,7 +172,7 @@ class Dispatcher(Router):
             raise
 
     async def feed_webhook_update(
-        self, bot: Bot, update: Union[Update, Dict[str, Any]], _timeout: int = 55, **kwargs: Any
+            self, bot: Bot, update: Union[Update, Dict[str, Any]], _timeout: int = 55, **kwargs: Any
     ) -> Optional[Dict[str, Any]]:
         if not isinstance(update, Update):  # Allow to use raw updates
             update = Update(**update)

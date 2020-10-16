@@ -2,9 +2,9 @@ from typing import Any, Dict, Optional, Sequence, Union
 
 from pydantic import validator
 
+from .base import BaseFilter
 from ...api.types import Message
 from ...api.types.message import ContentType
-from .base import BaseFilter
 
 
 class ContentTypesFilter(BaseFilter):
@@ -12,7 +12,7 @@ class ContentTypesFilter(BaseFilter):
 
     @validator("content_types")
     def _validate_content_types(
-        cls, value: Optional[Union[Sequence[str], str]]
+            cls, value: Optional[Union[Sequence[str], str]]
     ) -> Optional[Sequence[str]]:
         if not value:
             value = [ContentType.TEXT]

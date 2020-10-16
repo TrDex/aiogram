@@ -46,11 +46,11 @@ class CallbackQuery(TelegramObject):
     """Short name of a Game to be returned, serves as the unique identifier for the game"""
 
     def answer(
-        self,
-        text: Optional[str] = None,
-        show_alert: Optional[bool] = None,
-        url: Optional[str] = None,
-        cache_time: Optional[int] = None,
+            self,
+            text: Optional[str] = None,
+            show_alert: Optional[bool] = None,
+            url: Optional[str] = None,
+            cache_time: Optional[int] = None,
     ) -> AnswerCallbackQuery:
         """
         Answer to callback query

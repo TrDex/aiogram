@@ -6,10 +6,10 @@ from typing import TYPE_CHECKING, Any, Callable, Dict, Generator, List, Optional
 
 from pydantic import ValidationError
 
-from ...api.types import TelegramObject
-from ..filters.base import BaseFilter
 from .bases import NOT_HANDLED, MiddlewareType, NextMiddlewareType, SkipHandler
 from .handler import CallbackType, FilterObject, FilterType, HandlerObject, HandlerType
+from ..filters.base import BaseFilter
+from ...api.types import TelegramObject
 
 if TYPE_CHECKING:  # pragma: no cover
     from aiogram.dispatcher.router import Router
@@ -85,7 +85,7 @@ class TelegramEventObserver:
         return filters
 
     def register(
-        self, callback: HandlerType, *filters: FilterType, **bound_filters: Any
+            self, callback: HandlerType, *filters: FilterType, **bound_filters: Any
     ) -> HandlerType:
         """
         Register event handler
@@ -101,7 +101,7 @@ class TelegramEventObserver:
 
     @classmethod
     def _wrap_middleware(
-        cls, middlewares: List[MiddlewareType], handler: HandlerType
+            cls, middlewares: List[MiddlewareType], handler: HandlerType
     ) -> NextMiddlewareType:
         @functools.wraps(handler)
         def mapper(event: TelegramObject, kwargs: Dict[str, Any]) -> Any:
@@ -134,7 +134,7 @@ class TelegramEventObserver:
         return NOT_HANDLED
 
     def __call__(
-        self, *args: FilterType, **bound_filters: BaseFilter
+            self, *args: FilterType, **bound_filters: BaseFilter
     ) -> Callable[[CallbackType], CallbackType]:
         """
         Decorator for registering event handlers
@@ -147,7 +147,7 @@ class TelegramEventObserver:
         return wrapper
 
     def middleware(
-        self, middleware: Optional[MiddlewareType] = None,
+            self, middleware: Optional[MiddlewareType] = None,
     ) -> Union[Callable[[MiddlewareType], MiddlewareType], MiddlewareType]:
         """
         Decorator for registering inner middlewares
@@ -168,7 +168,7 @@ class TelegramEventObserver:
         return wrapper(middleware)
 
     def outer_middleware(
-        self, middleware: Optional[MiddlewareType] = None,
+            self, middleware: Optional[MiddlewareType] = None,
     ) -> Union[Callable[[MiddlewareType], MiddlewareType], MiddlewareType]:
         """
         Decorator for registering outer middlewares

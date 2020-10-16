@@ -33,13 +33,13 @@ class InlineQuery(TelegramObject):
     """Sender location, only for bots that request user location"""
 
     def answer(
-        self,
-        results: List[InlineQueryResult],
-        cache_time: Optional[int] = None,
-        is_personal: Optional[bool] = None,
-        next_offset: Optional[str] = None,
-        switch_pm_text: Optional[str] = None,
-        switch_pm_parameter: Optional[str] = None,
+            self,
+            results: List[InlineQueryResult],
+            cache_time: Optional[int] = None,
+            is_personal: Optional[bool] = None,
+            next_offset: Optional[str] = None,
+            switch_pm_text: Optional[str] = None,
+            switch_pm_parameter: Optional[str] = None,
     ) -> AnswerInlineQuery:
         """
         :param results:

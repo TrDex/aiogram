@@ -7,9 +7,9 @@ T = TypeVar("T")
 class BaseMiddleware(ABC, Generic[T]):
     @abstractmethod
     async def __call__(
-        self,
-        handler: Callable[[T, Dict[str, Any]], Awaitable[Any]],
-        event: T,
-        data: Dict[str, Any],
+            self,
+            handler: Callable[[T, Dict[str, Any]], Awaitable[Any]],
+            event: T,
+            data: Dict[str, Any],
     ) -> Any:  # pragma: no cover
         pass

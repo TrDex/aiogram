@@ -19,8 +19,8 @@ from typing import (
 import aiofiles
 from async_lru import alru_cache
 
-from ...utils.mixins import ContextInstanceMixin
-from ...utils.token import extract_bot_id, validate_token
+from .session.aiohttp import AiohttpSession
+from .session.base import BaseSession
 from ..methods import (
     AddStickerToSet,
     AnswerCallbackQuery,
@@ -124,8 +124,8 @@ from ..types import (
     UserProfilePhotos,
     WebhookInfo,
 )
-from .session.aiohttp import AiohttpSession
-from .session.base import BaseSession
+from ...utils.mixins import ContextInstanceMixin
+from ...utils.token import extract_bot_id, validate_token
 
 T = TypeVar("T")
 
@@ -136,7 +136,7 @@ class Bot(ContextInstanceMixin["Bot"]):
     """
 
     def __init__(
-        self, token: str, session: Optional[BaseSession] = None, parse_mode: Optional[str] = None,
+            self, token: str, session: Optional[BaseSession] = None, parse_mode: Optional[str] = None,
     ) -> None:
         validate_token(token)
 
@@ -188,7 +188,7 @@ class Bot(ContextInstanceMixin["Bot"]):
 
     @classmethod
     async def __download_file_binary_io(
-        cls, destination: BinaryIO, seek: bool, stream: AsyncGenerator[bytes, None]
+            cls, destination: BinaryIO, seek: bool, stream: AsyncGenerator[bytes, None]
     ) -> BinaryIO:
         async for chunk in stream:
             destination.write(chunk)
@@ -199,19 +199,19 @@ class Bot(ContextInstanceMixin["Bot"]):
 
     @classmethod
     async def __download_file(
-        cls, destination: Union[str, pathlib.Path], stream: AsyncGenerator[bytes, None]
+            cls, destination: Union[str, pathlib.Path], stream: AsyncGenerator[bytes, None]
     ) -> None:
         async with aiofiles.open(destination, "wb") as f:
             async for chunk in stream:
                 await f.write(chunk)
 
     async def download_file(
-        self,
-        file_path: str,
-        destination: Optional[Union[BinaryIO, pathlib.Path, str]] = None,
-        timeout: int = 30,
-        chunk_size: int = 65536,
-        seek: bool = True,
+            self,
+            file_path: str,
+            destination: Optional[Union[BinaryIO, pathlib.Path, str]] = None,
+            timeout: int = 30,
+            chunk_size: int = 65536,
+            seek: bool = True,
     ) -> Optional[BinaryIO]:
         """
         Download file by file_path to destination.
@@ -239,12 +239,12 @@ class Bot(ContextInstanceMixin["Bot"]):
             )
 
     async def download(
-        self,
-        file: Union[str, Downloadable],
-        destination: Optional[Union[BinaryIO, pathlib.Path, str]] = None,
-        timeout: int = 30,
-        chunk_size: int = 65536,
-        seek: bool = True,
+            self,
+            file: Union[str, Downloadable],
+            destination: Optional[Union[BinaryIO, pathlib.Path, str]] = None,
+            timeout: int = 30,
+            chunk_size: int = 65536,
+            seek: bool = True,
     ) -> Optional[BinaryIO]:
         """
         Download file by file_id or Downloadable object to destination.
@@ -274,7 +274,7 @@ class Bot(ContextInstanceMixin["Bot"]):
         )
 
     async def __call__(
-        self, method: TelegramMethod[T], request_timeout: Optional[int] = None
+            self, method: TelegramMethod[T], request_timeout: Optional[int] = None
     ) -> T:
         """
         Call API method
@@ -309,12 +309,12 @@ class Bot(ContextInstanceMixin["Bot"]):
     # =============================================================================================
 
     async def get_updates(
-        self,
-        offset: Optional[int] = None,
-        limit: Optional[int] = None,
-        timeout: Optional[int] = None,
-        allowed_updates: Optional[List[str]] = None,
-        request_timeout: Optional[int] = None,
+            self,
+            offset: Optional[int] = None,
+            limit: Optional[int] = None,
+            timeout: Optional[int] = None,
+            allowed_updates: Optional[List[str]] = None,
+            request_timeout: Optional[int] = None,
     ) -> List[Update]:
         """
         Use this method to receive incoming updates using long polling (wiki). An Array of Update
@@ -353,12 +353,12 @@ class Bot(ContextInstanceMixin["Bot"]):
         return await self(call, request_timeout=request_timeout)
 
     async def set_webhook(
-        self,
-        url: str,
-        certificate: Optional[InputFile] = None,
-        max_connections: Optional[int] = None,
-        allowed_updates: Optional[List[str]] = None,
-        request_timeout: Optional[int] = None,
+            self,
+            url: str,
+            certificate: Optional[InputFile] = None,
+            max_connections: Optional[int] = None,
+            allowed_updates: Optional[List[str]] = None,
+            request_timeout: Optional[int] = None,
     ) -> bool:
         """
         Use this method to specify a url and receive incoming updates via an outgoing webhook.
@@ -404,7 +404,7 @@ class Bot(ContextInstanceMixin["Bot"]):
         )
         return await self(call, request_timeout=request_timeout)
 
-    async def delete_webhook(self, request_timeout: Optional[int] = None,) -> bool:
+    async def delete_webhook(self, request_timeout: Optional[int] = None, ) -> bool:
         """
         Use this method to remove webhook integration if you decide to switch back to getUpdates.
         Returns True on success. Requires no parameters.
@@ -417,7 +417,7 @@ class Bot(ContextInstanceMixin["Bot"]):
         call = DeleteWebhook()
         return await self(call, request_timeout=request_timeout)
 
-    async def get_webhook_info(self, request_timeout: Optional[int] = None,) -> WebhookInfo:
+    async def get_webhook_info(self, request_timeout: Optional[int] = None, ) -> WebhookInfo:
         """
         Use this method to get current webhook status. Requires no parameters. On success, returns
         a WebhookInfo object. If the bot is using getUpdates, will return an object with the url
@@ -437,7 +437,7 @@ class Bot(ContextInstanceMixin["Bot"]):
     # Source: https://core.telegram.org/bots/api#available-methods
     # =============================================================================================
 
-    async def get_me(self, request_timeout: Optional[int] = None,) -> User:
+    async def get_me(self, request_timeout: Optional[int] = None, ) -> User:
         """
         A simple method for testing your bot's auth token. Requires no parameters. Returns basic
         information about the bot in form of a User object.
@@ -451,17 +451,17 @@ class Bot(ContextInstanceMixin["Bot"]):
         return await self(call, request_timeout=request_timeout)
 
     async def send_message(
-        self,
-        chat_id: Union[int, str],
-        text: str,
-        parse_mode: Optional[str] = UNSET,
-        disable_web_page_preview: Optional[bool] = None,
-        disable_notification: Optional[bool] = None,
-        reply_to_message_id: Optional[int] = None,
-        reply_markup: Optional[
-            Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
-        ] = None,
-        request_timeout: Optional[int] = None,
+            self,
+            chat_id: Union[int, str],
+            text: str,
+            parse_mode: Optional[str] = UNSET,
+            disable_web_page_preview: Optional[bool] = None,
+            disable_notification: Optional[bool] = None,
+            reply_to_message_id: Optional[int] = None,
+            reply_markup: Optional[
+                Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
+            ] = None,
+            request_timeout: Optional[int] = None,
     ) -> Message:
         """
         Use this method to send text messages. On success, the sent Message is returned.
@@ -495,12 +495,12 @@ class Bot(ContextInstanceMixin["Bot"]):
         return await self(call, request_timeout=request_timeout)
 
     async def forward_message(
-        self,
-        chat_id: Union[int, str],
-        from_chat_id: Union[int, str],
-        message_id: int,
-        disable_notification: Optional[bool] = None,
-        request_timeout: Optional[int] = None,
+            self,
+            chat_id: Union[int, str],
+            from_chat_id: Union[int, str],
+            message_id: int,
+            disable_notification: Optional[bool] = None,
+            request_timeout: Optional[int] = None,
     ) -> Message:
         """
         Use this method to forward messages of any kind. On success, the sent Message is returned.
@@ -526,17 +526,17 @@ class Bot(ContextInstanceMixin["Bot"]):
         return await self(call, request_timeout=request_timeout)
 
     async def send_photo(
-        self,
-        chat_id: Union[int, str],
-        photo: Union[InputFile, str],
-        caption: Optional[str] = None,
-        parse_mode: Optional[str] = UNSET,
-        disable_notification: Optional[bool] = None,
-        reply_to_message_id: Optional[int] = None,
-        reply_markup: Optional[
-            Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
-        ] = None,
-        request_timeout: Optional[int] = None,
+            self,
+            chat_id: Union[int, str],
+            photo: Union[InputFile, str],
+            caption: Optional[str] = None,
+            parse_mode: Optional[str] = UNSET,
+            disable_notification: Optional[bool] = None,
+            reply_to_message_id: Optional[int] = None,
+            reply_markup: Optional[
+                Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
+            ] = None,
+            request_timeout: Optional[int] = None,
     ) -> Message:
         """
         Use this method to send photos. On success, the sent Message is returned.
@@ -574,21 +574,21 @@ class Bot(ContextInstanceMixin["Bot"]):
         return await self(call, request_timeout=request_timeout)
 
     async def send_audio(
-        self,
-        chat_id: Union[int, str],
-        audio: Union[InputFile, str],
-        caption: Optional[str] = None,
-        parse_mode: Optional[str] = UNSET,
-        duration: Optional[int] = None,
-        performer: Optional[str] = None,
-        title: Optional[str] = None,
-        thumb: Optional[Union[InputFile, str]] = None,
-        disable_notification: Optional[bool] = None,
-        reply_to_message_id: Optional[int] = None,
-        reply_markup: Optional[
-            Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
-        ] = None,
-        request_timeout: Optional[int] = None,
+            self,
+            chat_id: Union[int, str],
+            audio: Union[InputFile, str],
+            caption: Optional[str] = None,
+            parse_mode: Optional[str] = UNSET,
+            duration: Optional[int] = None,
+            performer: Optional[str] = None,
+            title: Optional[str] = None,
+            thumb: Optional[Union[InputFile, str]] = None,
+            disable_notification: Optional[bool] = None,
+            reply_to_message_id: Optional[int] = None,
+            reply_markup: Optional[
+                Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
+            ] = None,
+            request_timeout: Optional[int] = None,
     ) -> Message:
         """
         Use this method to send audio files, if you want Telegram clients to display them in the
@@ -643,18 +643,18 @@ class Bot(ContextInstanceMixin["Bot"]):
         return await self(call, request_timeout=request_timeout)
 
     async def send_document(
-        self,
-        chat_id: Union[int, str],
-        document: Union[InputFile, str],
-        thumb: Optional[Union[InputFile, str]] = None,
-        caption: Optional[str] = None,
-        parse_mode: Optional[str] = UNSET,
-        disable_notification: Optional[bool] = None,
-        reply_to_message_id: Optional[int] = None,
-        reply_markup: Optional[
-            Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
-        ] = None,
-        request_timeout: Optional[int] = None,
+            self,
+            chat_id: Union[int, str],
+            document: Union[InputFile, str],
+            thumb: Optional[Union[InputFile, str]] = None,
+            caption: Optional[str] = None,
+            parse_mode: Optional[str] = UNSET,
+            disable_notification: Optional[bool] = None,
+            reply_to_message_id: Optional[int] = None,
+            reply_markup: Optional[
+                Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
+            ] = None,
+            request_timeout: Optional[int] = None,
     ) -> Message:
         """
         Use this method to send general files. On success, the sent Message is returned. Bots can
@@ -702,22 +702,22 @@ class Bot(ContextInstanceMixin["Bot"]):
         return await self(call, request_timeout=request_timeout)
 
     async def send_video(
-        self,
-        chat_id: Union[int, str],
-        video: Union[InputFile, str],
-        duration: Optional[int] = None,
-        width: Optional[int] = None,
-        height: Optional[int] = None,
-        thumb: Optional[Union[InputFile, str]] = None,
-        caption: Optional[str] = None,
-        parse_mode: Optional[str] = UNSET,
-        supports_streaming: Optional[bool] = None,
-        disable_notification: Optional[bool] = None,
-        reply_to_message_id: Optional[int] = None,
-        reply_markup: Optional[
-            Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
-        ] = None,
-        request_timeout: Optional[int] = None,
+            self,
+            chat_id: Union[int, str],
+            video: Union[InputFile, str],
+            duration: Optional[int] = None,
+            width: Optional[int] = None,
+            height: Optional[int] = None,
+            thumb: Optional[Union[InputFile, str]] = None,
+            caption: Optional[str] = None,
+            parse_mode: Optional[str] = UNSET,
+            supports_streaming: Optional[bool] = None,
+            disable_notification: Optional[bool] = None,
+            reply_to_message_id: Optional[int] = None,
+            reply_markup: Optional[
+                Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
+            ] = None,
+            request_timeout: Optional[int] = None,
     ) -> Message:
         """
         Use this method to send video files, Telegram clients support mp4 videos (other formats
@@ -773,21 +773,21 @@ class Bot(ContextInstanceMixin["Bot"]):
         return await self(call, request_timeout=request_timeout)
 
     async def send_animation(
-        self,
-        chat_id: Union[int, str],
-        animation: Union[InputFile, str],
-        duration: Optional[int] = None,
-        width: Optional[int] = None,
-        height: Optional[int] = None,
-        thumb: Optional[Union[InputFile, str]] = None,
-        caption: Optional[str] = None,
-        parse_mode: Optional[str] = UNSET,
-        disable_notification: Optional[bool] = None,
-        reply_to_message_id: Optional[int] = None,
-        reply_markup: Optional[
-            Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
-        ] = None,
-        request_timeout: Optional[int] = None,
+            self,
+            chat_id: Union[int, str],
+            animation: Union[InputFile, str],
+            duration: Optional[int] = None,
+            width: Optional[int] = None,
+            height: Optional[int] = None,
+            thumb: Optional[Union[InputFile, str]] = None,
+            caption: Optional[str] = None,
+            parse_mode: Optional[str] = UNSET,
+            disable_notification: Optional[bool] = None,
+            reply_to_message_id: Optional[int] = None,
+            reply_markup: Optional[
+                Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
+            ] = None,
+            request_timeout: Optional[int] = None,
     ) -> Message:
         """
         Use this method to send animation files (GIF or H.264/MPEG-4 AVC video without sound). On
@@ -841,18 +841,18 @@ class Bot(ContextInstanceMixin["Bot"]):
         return await self(call, request_timeout=request_timeout)
 
     async def send_voice(
-        self,
-        chat_id: Union[int, str],
-        voice: Union[InputFile, str],
-        caption: Optional[str] = None,
-        parse_mode: Optional[str] = UNSET,
-        duration: Optional[int] = None,
-        disable_notification: Optional[bool] = None,
-        reply_to_message_id: Optional[int] = None,
-        reply_markup: Optional[
-            Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
-        ] = None,
-        request_timeout: Optional[int] = None,
+            self,
+            chat_id: Union[int, str],
+            voice: Union[InputFile, str],
+            caption: Optional[str] = None,
+            parse_mode: Optional[str] = UNSET,
+            duration: Optional[int] = None,
+            disable_notification: Optional[bool] = None,
+            reply_to_message_id: Optional[int] = None,
+            reply_markup: Optional[
+                Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
+            ] = None,
+            request_timeout: Optional[int] = None,
     ) -> Message:
         """
         Use this method to send audio files, if you want Telegram clients to display the file as a
@@ -895,18 +895,18 @@ class Bot(ContextInstanceMixin["Bot"]):
         return await self(call, request_timeout=request_timeout)
 
     async def send_video_note(
-        self,
-        chat_id: Union[int, str],
-        video_note: Union[InputFile, str],
-        duration: Optional[int] = None,
-        length: Optional[int] = None,
-        thumb: Optional[Union[InputFile, str]] = None,
-        disable_notification: Optional[bool] = None,
-        reply_to_message_id: Optional[int] = None,
-        reply_markup: Optional[
-            Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
-        ] = None,
-        request_timeout: Optional[int] = None,
+            self,
+            chat_id: Union[int, str],
+            video_note: Union[InputFile, str],
+            duration: Optional[int] = None,
+            length: Optional[int] = None,
+            thumb: Optional[Union[InputFile, str]] = None,
+            disable_notification: Optional[bool] = None,
+            reply_to_message_id: Optional[int] = None,
+            reply_markup: Optional[
+                Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
+            ] = None,
+            request_timeout: Optional[int] = None,
     ) -> Message:
         """
         As of v.4.0, Telegram clients support rounded square mp4 videos of up to 1 minute long.
@@ -951,12 +951,12 @@ class Bot(ContextInstanceMixin["Bot"]):
         return await self(call, request_timeout=request_timeout)
 
     async def send_media_group(
-        self,
-        chat_id: Union[int, str],
-        media: List[Union[InputMediaPhoto, InputMediaVideo]],
-        disable_notification: Optional[bool] = None,
-        reply_to_message_id: Optional[int] = None,
-        request_timeout: Optional[int] = None,
+            self,
+            chat_id: Union[int, str],
+            media: List[Union[InputMediaPhoto, InputMediaVideo]],
+            disable_notification: Optional[bool] = None,
+            reply_to_message_id: Optional[int] = None,
+            request_timeout: Optional[int] = None,
     ) -> List[Message]:
         """
         Use this method to send a group of photos or videos as an album. On success, an array of
@@ -983,17 +983,17 @@ class Bot(ContextInstanceMixin["Bot"]):
         return await self(call, request_timeout=request_timeout)
 
     async def send_location(
-        self,
-        chat_id: Union[int, str],
-        latitude: float,
-        longitude: float,
-        live_period: Optional[int] = None,
-        disable_notification: Optional[bool] = None,
-        reply_to_message_id: Optional[int] = None,
-        reply_markup: Optional[
-            Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
-        ] = None,
-        request_timeout: Optional[int] = None,
+            self,
+            chat_id: Union[int, str],
+            latitude: float,
+            longitude: float,
+            live_period: Optional[int] = None,
+            disable_notification: Optional[bool] = None,
+            reply_to_message_id: Optional[int] = None,
+            reply_markup: Optional[
+                Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
+            ] = None,
+            request_timeout: Optional[int] = None,
     ) -> Message:
         """
         Use this method to send point on the map. On success, the sent Message is returned.
@@ -1027,14 +1027,14 @@ class Bot(ContextInstanceMixin["Bot"]):
         return await self(call, request_timeout=request_timeout)
 
     async def edit_message_live_location(
-        self,
-        latitude: float,
-        longitude: float,
-        chat_id: Optional[Union[int, str]] = None,
-        message_id: Optional[int] = None,
-        inline_message_id: Optional[str] = None,
-        reply_markup: Optional[InlineKeyboardMarkup] = None,
-        request_timeout: Optional[int] = None,
+            self,
+            latitude: float,
+            longitude: float,
+            chat_id: Optional[Union[int, str]] = None,
+            message_id: Optional[int] = None,
+            inline_message_id: Optional[str] = None,
+            reply_markup: Optional[InlineKeyboardMarkup] = None,
+            request_timeout: Optional[int] = None,
     ) -> Union[Message, bool]:
         """
         Use this method to edit live location messages. A location can be edited until its
@@ -1069,12 +1069,12 @@ class Bot(ContextInstanceMixin["Bot"]):
         return await self(call, request_timeout=request_timeout)
 
     async def stop_message_live_location(
-        self,
-        chat_id: Optional[Union[int, str]] = None,
-        message_id: Optional[int] = None,
-        inline_message_id: Optional[str] = None,
-        reply_markup: Optional[InlineKeyboardMarkup] = None,
-        request_timeout: Optional[int] = None,
+            self,
+            chat_id: Optional[Union[int, str]] = None,
+            message_id: Optional[int] = None,
+            inline_message_id: Optional[str] = None,
+            reply_markup: Optional[InlineKeyboardMarkup] = None,
+            request_timeout: Optional[int] = None,
     ) -> Union[Message, bool]:
         """
         Use this method to stop updating a live location message before live_period expires. On
@@ -1104,20 +1104,20 @@ class Bot(ContextInstanceMixin["Bot"]):
         return await self(call, request_timeout=request_timeout)
 
     async def send_venue(
-        self,
-        chat_id: Union[int, str],
-        latitude: float,
-        longitude: float,
-        title: str,
-        address: str,
-        foursquare_id: Optional[str] = None,
-        foursquare_type: Optional[str] = None,
-        disable_notification: Optional[bool] = None,
-        reply_to_message_id: Optional[int] = None,
-        reply_markup: Optional[
-            Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
-        ] = None,
-        request_timeout: Optional[int] = None,
+            self,
+            chat_id: Union[int, str],
+            latitude: float,
+            longitude: float,
+            title: str,
+            address: str,
+            foursquare_id: Optional[str] = None,
+            foursquare_type: Optional[str] = None,
+            disable_notification: Optional[bool] = None,
+            reply_to_message_id: Optional[int] = None,
+            reply_markup: Optional[
+                Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
+            ] = None,
+            request_timeout: Optional[int] = None,
     ) -> Message:
         """
         Use this method to send information about a venue. On success, the sent Message is
@@ -1159,18 +1159,18 @@ class Bot(ContextInstanceMixin["Bot"]):
         return await self(call, request_timeout=request_timeout)
 
     async def send_contact(
-        self,
-        chat_id: Union[int, str],
-        phone_number: str,
-        first_name: str,
-        last_name: Optional[str] = None,
-        vcard: Optional[str] = None,
-        disable_notification: Optional[bool] = None,
-        reply_to_message_id: Optional[int] = None,
-        reply_markup: Optional[
-            Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
-        ] = None,
-        request_timeout: Optional[int] = None,
+            self,
+            chat_id: Union[int, str],
+            phone_number: str,
+            first_name: str,
+            last_name: Optional[str] = None,
+            vcard: Optional[str] = None,
+            disable_notification: Optional[bool] = None,
+            reply_to_message_id: Optional[int] = None,
+            reply_markup: Optional[
+                Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
+            ] = None,
+            request_timeout: Optional[int] = None,
     ) -> Message:
         """
         Use this method to send phone contacts. On success, the sent Message is returned.
@@ -1205,25 +1205,25 @@ class Bot(ContextInstanceMixin["Bot"]):
         return await self(call, request_timeout=request_timeout)
 
     async def send_poll(
-        self,
-        chat_id: Union[int, str],
-        question: str,
-        options: List[str],
-        is_anonymous: Optional[bool] = None,
-        type: Optional[str] = None,
-        allows_multiple_answers: Optional[bool] = None,
-        correct_option_id: Optional[int] = None,
-        explanation: Optional[str] = None,
-        explanation_parse_mode: Optional[str] = UNSET,
-        open_period: Optional[int] = None,
-        close_date: Optional[Union[datetime.datetime, datetime.timedelta, int]] = None,
-        is_closed: Optional[bool] = None,
-        disable_notification: Optional[bool] = None,
-        reply_to_message_id: Optional[int] = None,
-        reply_markup: Optional[
-            Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
-        ] = None,
-        request_timeout: Optional[int] = None,
+            self,
+            chat_id: Union[int, str],
+            question: str,
+            options: List[str],
+            is_anonymous: Optional[bool] = None,
+            type: Optional[str] = None,
+            allows_multiple_answers: Optional[bool] = None,
+            correct_option_id: Optional[int] = None,
+            explanation: Optional[str] = None,
+            explanation_parse_mode: Optional[str] = UNSET,
+            open_period: Optional[int] = None,
+            close_date: Optional[Union[datetime.datetime, datetime.timedelta, int]] = None,
+            is_closed: Optional[bool] = None,
+            disable_notification: Optional[bool] = None,
+            reply_to_message_id: Optional[int] = None,
+            reply_markup: Optional[
+                Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
+            ] = None,
+            request_timeout: Optional[int] = None,
     ) -> Message:
         """
         Use this method to send a native poll. On success, the sent Message is returned.
@@ -1282,15 +1282,15 @@ class Bot(ContextInstanceMixin["Bot"]):
         return await self(call, request_timeout=request_timeout)
 
     async def send_dice(
-        self,
-        chat_id: Union[int, str],
-        emoji: Optional[str] = None,
-        disable_notification: Optional[bool] = None,
-        reply_to_message_id: Optional[int] = None,
-        reply_markup: Optional[
-            Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
-        ] = None,
-        request_timeout: Optional[int] = None,
+            self,
+            chat_id: Union[int, str],
+            emoji: Optional[str] = None,
+            disable_notification: Optional[bool] = None,
+            reply_to_message_id: Optional[int] = None,
+            reply_markup: Optional[
+                Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
+            ] = None,
+            request_timeout: Optional[int] = None,
     ) -> Message:
         """
         Use this method to send an animated emoji that will display a random value. On success,
@@ -1322,7 +1322,7 @@ class Bot(ContextInstanceMixin["Bot"]):
         return await self(call, request_timeout=request_timeout)
 
     async def send_chat_action(
-        self, chat_id: Union[int, str], action: str, request_timeout: Optional[int] = None,
+            self, chat_id: Union[int, str], action: str, request_timeout: Optional[int] = None,
     ) -> bool:
         """
         Use this method when you need to tell the user that something is happening on the bot's
@@ -1347,15 +1347,15 @@ class Bot(ContextInstanceMixin["Bot"]):
         :param request_timeout: Request timeout
         :return: Returns True on success.
         """
-        call = SendChatAction(chat_id=chat_id, action=action,)
+        call = SendChatAction(chat_id=chat_id, action=action, )
         return await self(call, request_timeout=request_timeout)
 
     async def get_user_profile_photos(
-        self,
-        user_id: int,
-        offset: Optional[int] = None,
-        limit: Optional[int] = None,
-        request_timeout: Optional[int] = None,
+            self,
+            user_id: int,
+            offset: Optional[int] = None,
+            limit: Optional[int] = None,
+            request_timeout: Optional[int] = None,
     ) -> UserProfilePhotos:
         """
         Use this method to get a list of profile pictures for a user. Returns a UserProfilePhotos
@@ -1371,10 +1371,10 @@ class Bot(ContextInstanceMixin["Bot"]):
         :param request_timeout: Request timeout
         :return: Returns a UserProfilePhotos object.
         """
-        call = GetUserProfilePhotos(user_id=user_id, offset=offset, limit=limit,)
+        call = GetUserProfilePhotos(user_id=user_id, offset=offset, limit=limit, )
         return await self(call, request_timeout=request_timeout)
 
-    async def get_file(self, file_id: str, request_timeout: Optional[int] = None,) -> File:
+    async def get_file(self, file_id: str, request_timeout: Optional[int] = None, ) -> File:
         """
         Use this method to get basic info about a file and prepare it for downloading. For the
         moment, bots can download files of up to 20MB in size. On success, a File object is
@@ -1391,15 +1391,15 @@ class Bot(ContextInstanceMixin["Bot"]):
         :param request_timeout: Request timeout
         :return: On success, a File object is returned.
         """
-        call = GetFile(file_id=file_id,)
+        call = GetFile(file_id=file_id, )
         return await self(call, request_timeout=request_timeout)
 
     async def kick_chat_member(
-        self,
-        chat_id: Union[int, str],
-        user_id: int,
-        until_date: Optional[Union[datetime.datetime, datetime.timedelta, int]] = None,
-        request_timeout: Optional[int] = None,
+            self,
+            chat_id: Union[int, str],
+            user_id: int,
+            until_date: Optional[Union[datetime.datetime, datetime.timedelta, int]] = None,
+            request_timeout: Optional[int] = None,
     ) -> bool:
         """
         Use this method to kick a user from a group, a supergroup or a channel. In the case of
@@ -1419,11 +1419,11 @@ class Bot(ContextInstanceMixin["Bot"]):
         :return: In the case of supergroups and channels, the user will not be able to return to
         the group on their own using invite links, etc. Returns True on success.
         """
-        call = KickChatMember(chat_id=chat_id, user_id=user_id, until_date=until_date,)
+        call = KickChatMember(chat_id=chat_id, user_id=user_id, until_date=until_date, )
         return await self(call, request_timeout=request_timeout)
 
     async def unban_chat_member(
-        self, chat_id: Union[int, str], user_id: int, request_timeout: Optional[int] = None,
+            self, chat_id: Union[int, str], user_id: int, request_timeout: Optional[int] = None,
     ) -> bool:
         """
         Use this method to unban a previously kicked user in a supergroup or channel. The user
@@ -1439,16 +1439,16 @@ class Bot(ContextInstanceMixin["Bot"]):
         :return: The user will not return to the group or channel automatically, but will be able
         to join via link, etc. Returns True on success.
         """
-        call = UnbanChatMember(chat_id=chat_id, user_id=user_id,)
+        call = UnbanChatMember(chat_id=chat_id, user_id=user_id, )
         return await self(call, request_timeout=request_timeout)
 
     async def restrict_chat_member(
-        self,
-        chat_id: Union[int, str],
-        user_id: int,
-        permissions: ChatPermissions,
-        until_date: Optional[Union[datetime.datetime, datetime.timedelta, int]] = None,
-        request_timeout: Optional[int] = None,
+            self,
+            chat_id: Union[int, str],
+            user_id: int,
+            permissions: ChatPermissions,
+            until_date: Optional[Union[datetime.datetime, datetime.timedelta, int]] = None,
+            request_timeout: Optional[int] = None,
     ) -> bool:
         """
         Use this method to restrict a user in a supergroup. The bot must be an administrator in
@@ -1473,18 +1473,18 @@ class Bot(ContextInstanceMixin["Bot"]):
         return await self(call, request_timeout=request_timeout)
 
     async def promote_chat_member(
-        self,
-        chat_id: Union[int, str],
-        user_id: int,
-        can_change_info: Optional[bool] = None,
-        can_post_messages: Optional[bool] = None,
-        can_edit_messages: Optional[bool] = None,
-        can_delete_messages: Optional[bool] = None,
-        can_invite_users: Optional[bool] = None,
-        can_restrict_members: Optional[bool] = None,
-        can_pin_messages: Optional[bool] = None,
-        can_promote_members: Optional[bool] = None,
-        request_timeout: Optional[int] = None,
+            self,
+            chat_id: Union[int, str],
+            user_id: int,
+            can_change_info: Optional[bool] = None,
+            can_post_messages: Optional[bool] = None,
+            can_edit_messages: Optional[bool] = None,
+            can_delete_messages: Optional[bool] = None,
+            can_invite_users: Optional[bool] = None,
+            can_restrict_members: Optional[bool] = None,
+            can_pin_messages: Optional[bool] = None,
+            can_promote_members: Optional[bool] = None,
+            request_timeout: Optional[int] = None,
     ) -> bool:
         """
         Use this method to promote or demote a user in a supergroup or a channel. The bot must be
@@ -1531,11 +1531,11 @@ class Bot(ContextInstanceMixin["Bot"]):
         return await self(call, request_timeout=request_timeout)
 
     async def set_chat_administrator_custom_title(
-        self,
-        chat_id: Union[int, str],
-        user_id: int,
-        custom_title: str,
-        request_timeout: Optional[int] = None,
+            self,
+            chat_id: Union[int, str],
+            user_id: int,
+            custom_title: str,
+            request_timeout: Optional[int] = None,
     ) -> bool:
         """
         Use this method to set a custom title for an administrator in a supergroup promoted by the
@@ -1557,10 +1557,10 @@ class Bot(ContextInstanceMixin["Bot"]):
         return await self(call, request_timeout=request_timeout)
 
     async def set_chat_permissions(
-        self,
-        chat_id: Union[int, str],
-        permissions: ChatPermissions,
-        request_timeout: Optional[int] = None,
+            self,
+            chat_id: Union[int, str],
+            permissions: ChatPermissions,
+            request_timeout: Optional[int] = None,
     ) -> bool:
         """
         Use this method to set default chat permissions for all members. The bot must be an
@@ -1575,11 +1575,11 @@ class Bot(ContextInstanceMixin["Bot"]):
         :param request_timeout: Request timeout
         :return: Returns True on success.
         """
-        call = SetChatPermissions(chat_id=chat_id, permissions=permissions,)
+        call = SetChatPermissions(chat_id=chat_id, permissions=permissions, )
         return await self(call, request_timeout=request_timeout)
 
     async def export_chat_invite_link(
-        self, chat_id: Union[int, str], request_timeout: Optional[int] = None,
+            self, chat_id: Union[int, str], request_timeout: Optional[int] = None,
     ) -> str:
         """
         Use this method to generate a new invite link for a chat; any previously generated link is
@@ -1598,11 +1598,11 @@ class Bot(ContextInstanceMixin["Bot"]):
         :param request_timeout: Request timeout
         :return: Returns the new invite link as String on success.
         """
-        call = ExportChatInviteLink(chat_id=chat_id,)
+        call = ExportChatInviteLink(chat_id=chat_id, )
         return await self(call, request_timeout=request_timeout)
 
     async def set_chat_photo(
-        self, chat_id: Union[int, str], photo: InputFile, request_timeout: Optional[int] = None,
+            self, chat_id: Union[int, str], photo: InputFile, request_timeout: Optional[int] = None,
     ) -> bool:
         """
         Use this method to set a new profile photo for the chat. Photos can't be changed for
@@ -1617,11 +1617,11 @@ class Bot(ContextInstanceMixin["Bot"]):
         :param request_timeout: Request timeout
         :return: Returns True on success.
         """
-        call = SetChatPhoto(chat_id=chat_id, photo=photo,)
+        call = SetChatPhoto(chat_id=chat_id, photo=photo, )
         return await self(call, request_timeout=request_timeout)
 
     async def delete_chat_photo(
-        self, chat_id: Union[int, str], request_timeout: Optional[int] = None,
+            self, chat_id: Union[int, str], request_timeout: Optional[int] = None,
     ) -> bool:
         """
         Use this method to delete a chat photo. Photos can't be changed for private chats. The bot
@@ -1635,11 +1635,11 @@ class Bot(ContextInstanceMixin["Bot"]):
         :param request_timeout: Request timeout
         :return: Returns True on success.
         """
-        call = DeleteChatPhoto(chat_id=chat_id,)
+        call = DeleteChatPhoto(chat_id=chat_id, )
         return await self(call, request_timeout=request_timeout)
 
     async def set_chat_title(
-        self, chat_id: Union[int, str], title: str, request_timeout: Optional[int] = None,
+            self, chat_id: Union[int, str], title: str, request_timeout: Optional[int] = None,
     ) -> bool:
         """
         Use this method to change the title of a chat. Titles can't be changed for private chats.
@@ -1654,14 +1654,14 @@ class Bot(ContextInstanceMixin["Bot"]):
         :param request_timeout: Request timeout
         :return: Returns True on success.
         """
-        call = SetChatTitle(chat_id=chat_id, title=title,)
+        call = SetChatTitle(chat_id=chat_id, title=title, )
         return await self(call, request_timeout=request_timeout)
 
     async def set_chat_description(
-        self,
-        chat_id: Union[int, str],
-        description: Optional[str] = None,
-        request_timeout: Optional[int] = None,
+            self,
+            chat_id: Union[int, str],
+            description: Optional[str] = None,
+            request_timeout: Optional[int] = None,
     ) -> bool:
         """
         Use this method to change the description of a group, a supergroup or a channel. The bot
@@ -1676,15 +1676,15 @@ class Bot(ContextInstanceMixin["Bot"]):
         :param request_timeout: Request timeout
         :return: Returns True on success.
         """
-        call = SetChatDescription(chat_id=chat_id, description=description,)
+        call = SetChatDescription(chat_id=chat_id, description=description, )
         return await self(call, request_timeout=request_timeout)
 
     async def pin_chat_message(
-        self,
-        chat_id: Union[int, str],
-        message_id: int,
-        disable_notification: Optional[bool] = None,
-        request_timeout: Optional[int] = None,
+            self,
+            chat_id: Union[int, str],
+            message_id: int,
+            disable_notification: Optional[bool] = None,
+            request_timeout: Optional[int] = None,
     ) -> bool:
         """
         Use this method to pin a message in a group, a supergroup, or a channel. The bot must be
@@ -1709,7 +1709,7 @@ class Bot(ContextInstanceMixin["Bot"]):
         return await self(call, request_timeout=request_timeout)
 
     async def unpin_chat_message(
-        self, chat_id: Union[int, str], request_timeout: Optional[int] = None,
+            self, chat_id: Union[int, str], request_timeout: Optional[int] = None,
     ) -> bool:
         """
         Use this method to unpin a message in a group, a supergroup, or a channel. The bot must be
@@ -1724,11 +1724,11 @@ class Bot(ContextInstanceMixin["Bot"]):
         :param request_timeout: Request timeout
         :return: Returns True on success.
         """
-        call = UnpinChatMessage(chat_id=chat_id,)
+        call = UnpinChatMessage(chat_id=chat_id, )
         return await self(call, request_timeout=request_timeout)
 
     async def leave_chat(
-        self, chat_id: Union[int, str], request_timeout: Optional[int] = None,
+            self, chat_id: Union[int, str], request_timeout: Optional[int] = None,
     ) -> bool:
         """
         Use this method for your bot to leave a group, supergroup or channel. Returns True on
@@ -1741,11 +1741,11 @@ class Bot(ContextInstanceMixin["Bot"]):
         :param request_timeout: Request timeout
         :return: Returns True on success.
         """
-        call = LeaveChat(chat_id=chat_id,)
+        call = LeaveChat(chat_id=chat_id, )
         return await self(call, request_timeout=request_timeout)
 
     async def get_chat(
-        self, chat_id: Union[int, str], request_timeout: Optional[int] = None,
+            self, chat_id: Union[int, str], request_timeout: Optional[int] = None,
     ) -> Chat:
         """
         Use this method to get up to date information about the chat (current name of the user for
@@ -1759,11 +1759,11 @@ class Bot(ContextInstanceMixin["Bot"]):
         :param request_timeout: Request timeout
         :return: Returns a Chat object on success.
         """
-        call = GetChat(chat_id=chat_id,)
+        call = GetChat(chat_id=chat_id, )
         return await self(call, request_timeout=request_timeout)
 
     async def get_chat_administrators(
-        self, chat_id: Union[int, str], request_timeout: Optional[int] = None,
+            self, chat_id: Union[int, str], request_timeout: Optional[int] = None,
     ) -> List[ChatMember]:
         """
         Use this method to get a list of administrators in a chat. On success, returns an Array of
@@ -1781,11 +1781,11 @@ class Bot(ContextInstanceMixin["Bot"]):
         supergroup and no administrators were appointed, only the creator will be
         returned.
         """
-        call = GetChatAdministrators(chat_id=chat_id,)
+        call = GetChatAdministrators(chat_id=chat_id, )
         return await self(call, request_timeout=request_timeout)
 
     async def get_chat_members_count(
-        self, chat_id: Union[int, str], request_timeout: Optional[int] = None,
+            self, chat_id: Union[int, str], request_timeout: Optional[int] = None,
     ) -> int:
         """
         Use this method to get the number of members in a chat. Returns Int on success.
@@ -1797,11 +1797,11 @@ class Bot(ContextInstanceMixin["Bot"]):
         :param request_timeout: Request timeout
         :return: Returns Int on success.
         """
-        call = GetChatMembersCount(chat_id=chat_id,)
+        call = GetChatMembersCount(chat_id=chat_id, )
         return await self(call, request_timeout=request_timeout)
 
     async def get_chat_member(
-        self, chat_id: Union[int, str], user_id: int, request_timeout: Optional[int] = None,
+            self, chat_id: Union[int, str], user_id: int, request_timeout: Optional[int] = None,
     ) -> ChatMember:
         """
         Use this method to get information about a member of a chat. Returns a ChatMember object
@@ -1815,14 +1815,14 @@ class Bot(ContextInstanceMixin["Bot"]):
         :param request_timeout: Request timeout
         :return: Returns a ChatMember object on success.
         """
-        call = GetChatMember(chat_id=chat_id, user_id=user_id,)
+        call = GetChatMember(chat_id=chat_id, user_id=user_id, )
         return await self(call, request_timeout=request_timeout)
 
     async def set_chat_sticker_set(
-        self,
-        chat_id: Union[int, str],
-        sticker_set_name: str,
-        request_timeout: Optional[int] = None,
+            self,
+            chat_id: Union[int, str],
+            sticker_set_name: str,
+            request_timeout: Optional[int] = None,
     ) -> bool:
         """
         Use this method to set a new group sticker set for a supergroup. The bot must be an
@@ -1839,11 +1839,11 @@ class Bot(ContextInstanceMixin["Bot"]):
         :return: Use the field can_set_sticker_set optionally returned in getChat requests to
         check if the bot can use this method. Returns True on success.
         """
-        call = SetChatStickerSet(chat_id=chat_id, sticker_set_name=sticker_set_name,)
+        call = SetChatStickerSet(chat_id=chat_id, sticker_set_name=sticker_set_name, )
         return await self(call, request_timeout=request_timeout)
 
     async def delete_chat_sticker_set(
-        self, chat_id: Union[int, str], request_timeout: Optional[int] = None,
+            self, chat_id: Union[int, str], request_timeout: Optional[int] = None,
     ) -> bool:
         """
         Use this method to delete a group sticker set from a supergroup. The bot must be an
@@ -1859,17 +1859,17 @@ class Bot(ContextInstanceMixin["Bot"]):
         :return: Use the field can_set_sticker_set optionally returned in getChat requests to
         check if the bot can use this method. Returns True on success.
         """
-        call = DeleteChatStickerSet(chat_id=chat_id,)
+        call = DeleteChatStickerSet(chat_id=chat_id, )
         return await self(call, request_timeout=request_timeout)
 
     async def answer_callback_query(
-        self,
-        callback_query_id: str,
-        text: Optional[str] = None,
-        show_alert: Optional[bool] = None,
-        url: Optional[str] = None,
-        cache_time: Optional[int] = None,
-        request_timeout: Optional[int] = None,
+            self,
+            callback_query_id: str,
+            text: Optional[str] = None,
+            show_alert: Optional[bool] = None,
+            url: Optional[str] = None,
+            cache_time: Optional[int] = None,
+            request_timeout: Optional[int] = None,
     ) -> bool:
         """
         Use this method to send answers to callback queries sent from inline keyboards. The answer
@@ -1906,7 +1906,7 @@ class Bot(ContextInstanceMixin["Bot"]):
         return await self(call, request_timeout=request_timeout)
 
     async def set_my_commands(
-        self, commands: List[BotCommand], request_timeout: Optional[int] = None,
+            self, commands: List[BotCommand], request_timeout: Optional[int] = None,
     ) -> bool:
         """
         Use this method to change the list of the bot's commands. Returns True on success.
@@ -1918,10 +1918,10 @@ class Bot(ContextInstanceMixin["Bot"]):
         :param request_timeout: Request timeout
         :return: Returns True on success.
         """
-        call = SetMyCommands(commands=commands,)
+        call = SetMyCommands(commands=commands, )
         return await self(call, request_timeout=request_timeout)
 
-    async def get_my_commands(self, request_timeout: Optional[int] = None,) -> List[BotCommand]:
+    async def get_my_commands(self, request_timeout: Optional[int] = None, ) -> List[BotCommand]:
         """
         Use this method to get the current list of the bot's commands. Requires no parameters.
         Returns Array of BotCommand on success.
@@ -1940,15 +1940,15 @@ class Bot(ContextInstanceMixin["Bot"]):
     # =============================================================================================
 
     async def edit_message_text(
-        self,
-        text: str,
-        chat_id: Optional[Union[int, str]] = None,
-        message_id: Optional[int] = None,
-        inline_message_id: Optional[str] = None,
-        parse_mode: Optional[str] = UNSET,
-        disable_web_page_preview: Optional[bool] = None,
-        reply_markup: Optional[InlineKeyboardMarkup] = None,
-        request_timeout: Optional[int] = None,
+            self,
+            text: str,
+            chat_id: Optional[Union[int, str]] = None,
+            message_id: Optional[int] = None,
+            inline_message_id: Optional[str] = None,
+            parse_mode: Optional[str] = UNSET,
+            disable_web_page_preview: Optional[bool] = None,
+            reply_markup: Optional[InlineKeyboardMarkup] = None,
+            request_timeout: Optional[int] = None,
     ) -> Union[Message, bool]:
         """
         Use this method to edit text and game messages. On success, if edited message is sent by
@@ -1984,14 +1984,14 @@ class Bot(ContextInstanceMixin["Bot"]):
         return await self(call, request_timeout=request_timeout)
 
     async def edit_message_caption(
-        self,
-        chat_id: Optional[Union[int, str]] = None,
-        message_id: Optional[int] = None,
-        inline_message_id: Optional[str] = None,
-        caption: Optional[str] = None,
-        parse_mode: Optional[str] = UNSET,
-        reply_markup: Optional[InlineKeyboardMarkup] = None,
-        request_timeout: Optional[int] = None,
+            self,
+            chat_id: Optional[Union[int, str]] = None,
+            message_id: Optional[int] = None,
+            inline_message_id: Optional[str] = None,
+            caption: Optional[str] = None,
+            parse_mode: Optional[str] = UNSET,
+            reply_markup: Optional[InlineKeyboardMarkup] = None,
+            request_timeout: Optional[int] = None,
     ) -> Union[Message, bool]:
         """
         Use this method to edit captions of messages. On success, if edited message is sent by the
@@ -2025,13 +2025,13 @@ class Bot(ContextInstanceMixin["Bot"]):
         return await self(call, request_timeout=request_timeout)
 
     async def edit_message_media(
-        self,
-        media: InputMedia,
-        chat_id: Optional[Union[int, str]] = None,
-        message_id: Optional[int] = None,
-        inline_message_id: Optional[str] = None,
-        reply_markup: Optional[InlineKeyboardMarkup] = None,
-        request_timeout: Optional[int] = None,
+            self,
+            media: InputMedia,
+            chat_id: Optional[Union[int, str]] = None,
+            message_id: Optional[int] = None,
+            inline_message_id: Optional[str] = None,
+            reply_markup: Optional[InlineKeyboardMarkup] = None,
+            request_timeout: Optional[int] = None,
     ) -> Union[Message, bool]:
         """
         Use this method to edit animation, audio, document, photo, or video messages. If a message
@@ -2066,12 +2066,12 @@ class Bot(ContextInstanceMixin["Bot"]):
         return await self(call, request_timeout=request_timeout)
 
     async def edit_message_reply_markup(
-        self,
-        chat_id: Optional[Union[int, str]] = None,
-        message_id: Optional[int] = None,
-        inline_message_id: Optional[str] = None,
-        reply_markup: Optional[InlineKeyboardMarkup] = None,
-        request_timeout: Optional[int] = None,
+            self,
+            chat_id: Optional[Union[int, str]] = None,
+            message_id: Optional[int] = None,
+            inline_message_id: Optional[str] = None,
+            reply_markup: Optional[InlineKeyboardMarkup] = None,
+            request_timeout: Optional[int] = None,
     ) -> Union[Message, bool]:
         """
         Use this method to edit only the reply markup of messages. On success, if edited message
@@ -2100,11 +2100,11 @@ class Bot(ContextInstanceMixin["Bot"]):
         return await self(call, request_timeout=request_timeout)
 
     async def stop_poll(
-        self,
-        chat_id: Union[int, str],
-        message_id: int,
-        reply_markup: Optional[InlineKeyboardMarkup] = None,
-        request_timeout: Optional[int] = None,
+            self,
+            chat_id: Union[int, str],
+            message_id: int,
+            reply_markup: Optional[InlineKeyboardMarkup] = None,
+            request_timeout: Optional[int] = None,
     ) -> Poll:
         """
         Use this method to stop a poll which was sent by the bot. On success, the stopped Poll
@@ -2119,11 +2119,11 @@ class Bot(ContextInstanceMixin["Bot"]):
         :param request_timeout: Request timeout
         :return: On success, the stopped Poll with the final results is returned.
         """
-        call = StopPoll(chat_id=chat_id, message_id=message_id, reply_markup=reply_markup,)
+        call = StopPoll(chat_id=chat_id, message_id=message_id, reply_markup=reply_markup, )
         return await self(call, request_timeout=request_timeout)
 
     async def delete_message(
-        self, chat_id: Union[int, str], message_id: int, request_timeout: Optional[int] = None,
+            self, chat_id: Union[int, str], message_id: int, request_timeout: Optional[int] = None,
     ) -> bool:
         """
         Use this method to delete a message, including service messages, with the following
@@ -2147,7 +2147,7 @@ class Bot(ContextInstanceMixin["Bot"]):
         :param request_timeout: Request timeout
         :return: Returns True on success.
         """
-        call = DeleteMessage(chat_id=chat_id, message_id=message_id,)
+        call = DeleteMessage(chat_id=chat_id, message_id=message_id, )
         return await self(call, request_timeout=request_timeout)
 
     # =============================================================================================
@@ -2156,15 +2156,15 @@ class Bot(ContextInstanceMixin["Bot"]):
     # =============================================================================================
 
     async def send_sticker(
-        self,
-        chat_id: Union[int, str],
-        sticker: Union[InputFile, str],
-        disable_notification: Optional[bool] = None,
-        reply_to_message_id: Optional[int] = None,
-        reply_markup: Optional[
-            Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
-        ] = None,
-        request_timeout: Optional[int] = None,
+            self,
+            chat_id: Union[int, str],
+            sticker: Union[InputFile, str],
+            disable_notification: Optional[bool] = None,
+            reply_to_message_id: Optional[int] = None,
+            reply_markup: Optional[
+                Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]
+            ] = None,
+            request_timeout: Optional[int] = None,
     ) -> Message:
         """
         Use this method to send static .WEBP or animated .TGS stickers. On success, the sent
@@ -2197,7 +2197,7 @@ class Bot(ContextInstanceMixin["Bot"]):
         return await self(call, request_timeout=request_timeout)
 
     async def get_sticker_set(
-        self, name: str, request_timeout: Optional[int] = None,
+            self, name: str, request_timeout: Optional[int] = None,
     ) -> StickerSet:
         """
         Use this method to get a sticker set. On success, a StickerSet object is returned.
@@ -2208,11 +2208,11 @@ class Bot(ContextInstanceMixin["Bot"]):
         :param request_timeout: Request timeout
         :return: On success, a StickerSet object is returned.
         """
-        call = GetStickerSet(name=name,)
+        call = GetStickerSet(name=name, )
         return await self(call, request_timeout=request_timeout)
 
     async def upload_sticker_file(
-        self, user_id: int, png_sticker: InputFile, request_timeout: Optional[int] = None,
+            self, user_id: int, png_sticker: InputFile, request_timeout: Optional[int] = None,
     ) -> File:
         """
         Use this method to upload a .PNG file with a sticker for later use in createNewStickerSet
@@ -2228,20 +2228,20 @@ class Bot(ContextInstanceMixin["Bot"]):
         :param request_timeout: Request timeout
         :return: Returns the uploaded File on success.
         """
-        call = UploadStickerFile(user_id=user_id, png_sticker=png_sticker,)
+        call = UploadStickerFile(user_id=user_id, png_sticker=png_sticker, )
         return await self(call, request_timeout=request_timeout)
 
     async def create_new_sticker_set(
-        self,
-        user_id: int,
-        name: str,
-        title: str,
-        emojis: str,
-        png_sticker: Optional[Union[InputFile, str]] = None,
-        tgs_sticker: Optional[InputFile] = None,
-        contains_masks: Optional[bool] = None,
-        mask_position: Optional[MaskPosition] = None,
-        request_timeout: Optional[int] = None,
+            self,
+            user_id: int,
+            name: str,
+            title: str,
+            emojis: str,
+            png_sticker: Optional[Union[InputFile, str]] = None,
+            tgs_sticker: Optional[InputFile] = None,
+            contains_masks: Optional[bool] = None,
+            mask_position: Optional[MaskPosition] = None,
+            request_timeout: Optional[int] = None,
     ) -> bool:
         """
         Use this method to create a new sticker set owned by a user. The bot will be able to edit
@@ -2285,14 +2285,14 @@ class Bot(ContextInstanceMixin["Bot"]):
         return await self(call, request_timeout=request_timeout)
 
     async def add_sticker_to_set(
-        self,
-        user_id: int,
-        name: str,
-        emojis: str,
-        png_sticker: Optional[Union[InputFile, str]] = None,
-        tgs_sticker: Optional[InputFile] = None,
-        mask_position: Optional[MaskPosition] = None,
-        request_timeout: Optional[int] = None,
+            self,
+            user_id: int,
+            name: str,
+            emojis: str,
+            png_sticker: Optional[Union[InputFile, str]] = None,
+            tgs_sticker: Optional[InputFile] = None,
+            mask_position: Optional[MaskPosition] = None,
+            request_timeout: Optional[int] = None,
     ) -> bool:
         """
         Use this method to add a new sticker to a set created by the bot. You must use exactly one
@@ -2330,7 +2330,7 @@ class Bot(ContextInstanceMixin["Bot"]):
         return await self(call, request_timeout=request_timeout)
 
     async def set_sticker_position_in_set(
-        self, sticker: str, position: int, request_timeout: Optional[int] = None,
+            self, sticker: str, position: int, request_timeout: Optional[int] = None,
     ) -> bool:
         """
         Use this method to move a sticker in a set created by the bot to a specific position.
@@ -2343,11 +2343,11 @@ class Bot(ContextInstanceMixin["Bot"]):
         :param request_timeout: Request timeout
         :return: Returns True on success.
         """
-        call = SetStickerPositionInSet(sticker=sticker, position=position,)
+        call = SetStickerPositionInSet(sticker=sticker, position=position, )
         return await self(call, request_timeout=request_timeout)
 
     async def delete_sticker_from_set(
-        self, sticker: str, request_timeout: Optional[int] = None,
+            self, sticker: str, request_timeout: Optional[int] = None,
     ) -> bool:
         """
         Use this method to delete a sticker from a set created by the bot. Returns True on
@@ -2359,15 +2359,15 @@ class Bot(ContextInstanceMixin["Bot"]):
         :param request_timeout: Request timeout
         :return: Returns True on success.
         """
-        call = DeleteStickerFromSet(sticker=sticker,)
+        call = DeleteStickerFromSet(sticker=sticker, )
         return await self(call, request_timeout=request_timeout)
 
     async def set_sticker_set_thumb(
-        self,
-        name: str,
-        user_id: int,
-        thumb: Optional[Union[InputFile, str]] = None,
-        request_timeout: Optional[int] = None,
+            self,
+            name: str,
+            user_id: int,
+            thumb: Optional[Union[InputFile, str]] = None,
+            request_timeout: Optional[int] = None,
     ) -> bool:
         """
         Use this method to set the thumbnail of a sticker set. Animated thumbnails can be set for
@@ -2389,7 +2389,7 @@ class Bot(ContextInstanceMixin["Bot"]):
         :param request_timeout: Request timeout
         :return: Returns True on success.
         """
-        call = SetStickerSetThumb(name=name, user_id=user_id, thumb=thumb,)
+        call = SetStickerSetThumb(name=name, user_id=user_id, thumb=thumb, )
         return await self(call, request_timeout=request_timeout)
 
     # =============================================================================================
@@ -2398,15 +2398,15 @@ class Bot(ContextInstanceMixin["Bot"]):
     # =============================================================================================
 
     async def answer_inline_query(
-        self,
-        inline_query_id: str,
-        results: List[InlineQueryResult],
-        cache_time: Optional[int] = None,
-        is_personal: Optional[bool] = None,
-        next_offset: Optional[str] = None,
-        switch_pm_text: Optional[str] = None,
-        switch_pm_parameter: Optional[str] = None,
-        request_timeout: Optional[int] = None,
+            self,
+            inline_query_id: str,
+            results: List[InlineQueryResult],
+            cache_time: Optional[int] = None,
+            is_personal: Optional[bool] = None,
+            next_offset: Optional[str] = None,
+            switch_pm_text: Optional[str] = None,
+            switch_pm_parameter: Optional[str] = None,
+            request_timeout: Optional[int] = None,
     ) -> bool:
         """
         Use this method to send answers to an inline query. On success, True is returned.
@@ -2451,31 +2451,31 @@ class Bot(ContextInstanceMixin["Bot"]):
     # =============================================================================================
 
     async def send_invoice(
-        self,
-        chat_id: int,
-        title: str,
-        description: str,
-        payload: str,
-        provider_token: str,
-        start_parameter: str,
-        currency: str,
-        prices: List[LabeledPrice],
-        provider_data: Optional[str] = None,
-        photo_url: Optional[str] = None,
-        photo_size: Optional[int] = None,
-        photo_width: Optional[int] = None,
-        photo_height: Optional[int] = None,
-        need_name: Optional[bool] = None,
-        need_phone_number: Optional[bool] = None,
-        need_email: Optional[bool] = None,
-        need_shipping_address: Optional[bool] = None,
-        send_phone_number_to_provider: Optional[bool] = None,
-        send_email_to_provider: Optional[bool] = None,
-        is_flexible: Optional[bool] = None,
-        disable_notification: Optional[bool] = None,
-        reply_to_message_id: Optional[int] = None,
-        reply_markup: Optional[InlineKeyboardMarkup] = None,
-        request_timeout: Optional[int] = None,
+            self,
+            chat_id: int,
+            title: str,
+            description: str,
+            payload: str,
+            provider_token: str,
+            start_parameter: str,
+            currency: str,
+            prices: List[LabeledPrice],
+            provider_data: Optional[str] = None,
+            photo_url: Optional[str] = None,
+            photo_size: Optional[int] = None,
+            photo_width: Optional[int] = None,
+            photo_height: Optional[int] = None,
+            need_name: Optional[bool] = None,
+            need_phone_number: Optional[bool] = None,
+            need_email: Optional[bool] = None,
+            need_shipping_address: Optional[bool] = None,
+            send_phone_number_to_provider: Optional[bool] = None,
+            send_email_to_provider: Optional[bool] = None,
+            is_flexible: Optional[bool] = None,
+            disable_notification: Optional[bool] = None,
+            reply_to_message_id: Optional[int] = None,
+            reply_markup: Optional[InlineKeyboardMarkup] = None,
+            request_timeout: Optional[int] = None,
     ) -> Message:
         """
         Use this method to send invoices. On success, the sent Message is returned.
@@ -2551,12 +2551,12 @@ class Bot(ContextInstanceMixin["Bot"]):
         return await self(call, request_timeout=request_timeout)
 
     async def answer_shipping_query(
-        self,
-        shipping_query_id: str,
-        ok: bool,
-        shipping_options: Optional[List[ShippingOption]] = None,
-        error_message: Optional[str] = None,
-        request_timeout: Optional[int] = None,
+            self,
+            shipping_query_id: str,
+            ok: bool,
+            shipping_options: Optional[List[ShippingOption]] = None,
+            error_message: Optional[str] = None,
+            request_timeout: Optional[int] = None,
     ) -> bool:
         """
         If you sent an invoice requesting a shipping address and the parameter is_flexible was
@@ -2587,11 +2587,11 @@ class Bot(ContextInstanceMixin["Bot"]):
         return await self(call, request_timeout=request_timeout)
 
     async def answer_pre_checkout_query(
-        self,
-        pre_checkout_query_id: str,
-        ok: bool,
-        error_message: Optional[str] = None,
-        request_timeout: Optional[int] = None,
+            self,
+            pre_checkout_query_id: str,
+            ok: bool,
+            error_message: Optional[str] = None,
+            request_timeout: Optional[int] = None,
     ) -> bool:
         """
         Once the user has confirmed their payment and shipping details, the Bot API sends the
@@ -2624,10 +2624,10 @@ class Bot(ContextInstanceMixin["Bot"]):
     # =============================================================================================
 
     async def set_passport_data_errors(
-        self,
-        user_id: int,
-        errors: List[PassportElementError],
-        request_timeout: Optional[int] = None,
+            self,
+            user_id: int,
+            errors: List[PassportElementError],
+            request_timeout: Optional[int] = None,
     ) -> bool:
         """
         Informs a user that some of the Telegram Passport elements they provided contains errors.
@@ -2648,7 +2648,7 @@ class Bot(ContextInstanceMixin["Bot"]):
         fixed (the contents of the field for which you returned the error must change).
         Returns True on success.
         """
-        call = SetPassportDataErrors(user_id=user_id, errors=errors,)
+        call = SetPassportDataErrors(user_id=user_id, errors=errors, )
         return await self(call, request_timeout=request_timeout)
 
     # =============================================================================================
@@ -2657,13 +2657,13 @@ class Bot(ContextInstanceMixin["Bot"]):
     # =============================================================================================
 
     async def send_game(
-        self,
-        chat_id: int,
-        game_short_name: str,
-        disable_notification: Optional[bool] = None,
-        reply_to_message_id: Optional[int] = None,
-        reply_markup: Optional[InlineKeyboardMarkup] = None,
-        request_timeout: Optional[int] = None,
+            self,
+            chat_id: int,
+            game_short_name: str,
+            disable_notification: Optional[bool] = None,
+            reply_to_message_id: Optional[int] = None,
+            reply_markup: Optional[InlineKeyboardMarkup] = None,
+            request_timeout: Optional[int] = None,
     ) -> Message:
         """
         Use this method to send a game. On success, the sent Message is returned.
@@ -2692,15 +2692,15 @@ class Bot(ContextInstanceMixin["Bot"]):
         return await self(call, request_timeout=request_timeout)
 
     async def set_game_score(
-        self,
-        user_id: int,
-        score: int,
-        force: Optional[bool] = None,
-        disable_edit_message: Optional[bool] = None,
-        chat_id: Optional[int] = None,
-        message_id: Optional[int] = None,
-        inline_message_id: Optional[str] = None,
-        request_timeout: Optional[int] = None,
+            self,
+            user_id: int,
+            score: int,
+            force: Optional[bool] = None,
+            disable_edit_message: Optional[bool] = None,
+            chat_id: Optional[int] = None,
+            message_id: Optional[int] = None,
+            inline_message_id: Optional[str] = None,
+            request_timeout: Optional[int] = None,
     ) -> Union[Message, bool]:
         """
         Use this method to set the score of the specified user in a game. On success, if the
@@ -2739,12 +2739,12 @@ class Bot(ContextInstanceMixin["Bot"]):
         return await self(call, request_timeout=request_timeout)
 
     async def get_game_high_scores(
-        self,
-        user_id: int,
-        chat_id: Optional[int] = None,
-        message_id: Optional[int] = None,
-        inline_message_id: Optional[str] = None,
-        request_timeout: Optional[int] = None,
+            self,
+            user_id: int,
+            chat_id: Optional[int] = None,
+            message_id: Optional[int] = None,
+            inline_message_id: Optional[str] = None,
+            request_timeout: Optional[int] = None,
     ) -> List[GameHighScore]:
         """
         Use this method to get data for high score tables. Will return the score of the specified
